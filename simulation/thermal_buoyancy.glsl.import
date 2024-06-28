@@ -1,0 +1,14 @@
+[remap]
+
+importer="glsl"
+type="RDShaderFile"
+uid="uid://brm3tbmbtlrf4"
+path="res://.godot/imported/thermal_buoyancy.glsl-3c309b60b844e17a6bad38afec8a68fe.res"
+
+[deps]
+
+source_file="res://simulation/thermal_buoyancy.glsl"
+dest_files=["res://.godot/imported/thermal_buoyancy.glsl-3c309b60b844e17a6bad38afec8a68fe.res"]
+
+[params]
+

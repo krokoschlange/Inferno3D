@@ -1,0 +1,28 @@
+[gd_scene load_steps=2 format=3 uid="uid://bmnuvuqsrte4o"]
+
+[ext_resource type="PackedScene" uid="uid://b3cky14ct0q7y" path="res://editor/render_scene.tscn" id="1_57m2x"]
+
+[node name="Control" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+stretch = true
+
+[node name="SubViewport" type="SubViewport" parent="SubViewportContainer"]
+handle_input_locally = false
+size = Vector2i(1152, 648)
+render_target_update_mode = 4
+
+[node name="RenderScene" parent="SubViewportContainer/SubViewport" instance=ExtResource("1_57m2x")]

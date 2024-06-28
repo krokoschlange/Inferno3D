@@ -1,0 +1,53 @@
+[gd_scene load_steps=6 format=3 uid="uid://dc7imx5yrysht"]
+
+[ext_resource type="Script" path="res://simulation/fluids.gd" id="1_w5aci"]
+[ext_resource type="Script" path="res://simulation/smoke_source.gd" id="2_4pp21"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_k4ihe"]
+
+[sub_resource type="Sky" id="Sky_rn4wk"]
+sky_material = SubResource("ProceduralSkyMaterial_k4ihe")
+
+[sub_resource type="Environment" id="Environment_iw30a"]
+sky = SubResource("Sky_rn4wk")
+volumetric_fog_density = 0.0
+volumetric_fog_gi_inject = 0.01
+volumetric_fog_anisotropy = 0.56
+volumetric_fog_detail_spread = 5.04538
+volumetric_fog_ambient_inject = 2.92
+volumetric_fog_temporal_reprojection_enabled = false
+
+[node name="Node3D" type="Node3D"]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_iw30a")
+
+[node name="SmokeSim" type="Node3D" parent="."]
+script = ExtResource("1_w5aci")
+resolution = Vector3i(200, 128, 128)
+dissipation_factor = 0.144
+vorticity_confinement_factor = 0.13
+burn_rate = 0.995
+smoke_rate = 1.918
+max_temp = 2000.0
+cool_rate = 6e-08
+
+[node name="SmokeSource" type="Node3D" parent="SmokeSim"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.05367, 0.0979297, 6.12487)
+script = ExtResource("2_4pp21")
+rate = 100.0
+fuel_rate = 0.0
+radius = 0.845
+velocity = Vector3(0, 10, 0)
+edge = 1e+06
+
+[node name="SmokeSource2" type="Node3D" parent="SmokeSim"]
+transform = Transform3D(0.969373, 0, 0.245595, 0, 1, 0, -0.245595, 0, 0.969372, 13.4089, 0.862811, 2.18097)
+script = ExtResource("2_4pp21")
+rate = 0.0
+fuel_rate = 10.0
+radius = 0.52
+edge = 1.97461
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="SmokeSim"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0.590314, 3.66358, 0)

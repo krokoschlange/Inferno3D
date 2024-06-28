@@ -1,0 +1,68 @@
+[gd_scene load_steps=6 format=3 uid="uid://l301xds73dbt"]
+
+[ext_resource type="Script" path="res://editor/source_selection_gizmo.gd" id="1_ehll8"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_2uija"]
+resource_local_to_scene = true
+
+[sub_resource type="QuadMesh" id="QuadMesh_8muwd"]
+resource_local_to_scene = true
+
+[sub_resource type="Shader" id="Shader_4ipmi"]
+code = "// NOTE: Shader automatically converted from Godot Engine 4.3.beta's StandardMaterial3D.
+
+shader_type spatial;
+render_mode blend_mix, depth_test_disabled, cull_back, unshaded;
+
+uniform vec3 normal_color: source_color = vec3(0.695, 0.695, 0.695);
+uniform vec3 selected_color: source_color = vec3(0, 0.802, 1);
+uniform bool selected;
+
+varying float cam_dist;
+varying float radius;
+
+void vertex() {
+	// Billboard Mode: Enabled
+	radius = abs(VERTEX.x);
+	cam_dist = -(MODELVIEW_MATRIX * vec4(0, 0, 0, 1)).z;
+	MODELVIEW_MATRIX = VIEW_MATRIX * mat4(
+			MAIN_CAM_INV_VIEW_MATRIX[0],
+			MAIN_CAM_INV_VIEW_MATRIX[1],
+			MAIN_CAM_INV_VIEW_MATRIX[2],
+			MODEL_MATRIX[3]);
+	MODELVIEW_NORMAL_MATRIX = mat3(MODELVIEW_MATRIX);
+}
+
+void fragment() {
+	ALBEDO = normal_color;
+	if (selected) {
+		ALBEDO = selected_color;
+	}
+	float dist = length(UV - 0.5) * radius * 2.0;
+	if (dist < radius - sqrt(cam_dist) * 0.01 || dist > radius) {
+		discard;
+	}
+}
+"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_khkke"]
+resource_local_to_scene = true
+render_priority = 0
+shader = SubResource("Shader_4ipmi")
+shader_parameter/normal_color = Color(0.695, 0.695, 0.695, 1)
+shader_parameter/selected_color = Color(1, 0.647, 0, 1)
+shader_parameter/selected = null
+
+[node name="SourceSelectionGizmo" type="Node3D"]
+script = ExtResource("1_ehll8")
+
+[node name="Area3D" type="Area3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+shape = SubResource("SphereShape3D_2uija")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+layers = 2
+sorting_offset = 1e+07
+mesh = SubResource("QuadMesh_8muwd")
+surface_material_override/0 = SubResource("ShaderMaterial_khkke")

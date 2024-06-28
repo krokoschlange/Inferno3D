@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=3 uid="uid://cqlt4v4sfg6fa"]
+
+[ext_resource type="Script" path="res://editor/orbit_camera.gd" id="1_0ylto"]
+
+[sub_resource type="SphereMesh" id="SphereMesh_cytwc"]
+
+[node name="OrbitCamera" type="Node3D"]
+script = ExtResource("1_0ylto")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 10.98)
+current = true
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+visible = false
+mesh = SubResource("SphereMesh_cytwc")

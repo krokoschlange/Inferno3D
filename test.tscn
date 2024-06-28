@@ -1,0 +1,32 @@
+[gd_scene load_steps=2 format=3 uid="uid://dbxb8ctp6twrs"]
+
+[sub_resource type="GDScript" id="GDScript_67xl2"]
+script/source = "@tool
+extends Node2D
+
+var test: Callable
+
+# Called when the node enters the scene tree for the first time.
+func _ready() -> void:
+	var o := Obj.new()
+	o.value = 42
+	test = func () -> void:
+		o.value += 1
+		print(o.value)
+		print(o.get_reference_count())
+		print(\"---\")
+	print(o.get_reference_count())
+
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(delta: float) -> void:
+	test.call()
+	pass
+
+
+class Obj:
+	var value: int
+"
+
+[node name="Node2D" type="Node2D"]
+script = SubResource("GDScript_67xl2")

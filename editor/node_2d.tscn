@@ -1,0 +1,20 @@
+[gd_scene load_steps=2 format=3 uid="uid://c61bcwonwpm8i"]
+
+[sub_resource type="GDScript" id="GDScript_svlfa"]
+script/source = "@tool
+extends Node2D
+
+
+# Called when the node enters the scene tree for the first time.
+func _ready() -> void:
+	var t := Test.new()
+	print(t is Object)
+	print(t is RefCounted)
+	print(t is Resource)
+
+class Test:
+	var abs = 1
+"
+
+[node name="Node2D" type="Node2D"]
+script = SubResource("GDScript_svlfa")

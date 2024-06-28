@@ -1,0 +1,1185 @@
+[gd_scene load_steps=45 format=3 uid="uid://b7srvsqse7vrs"]
+
+[ext_resource type="Script" path="res://editor/render_scene_vp.gd" id="1_2jb7h"]
+[ext_resource type="PackedScene" uid="uid://3u4cjoe6l84c" path="res://editor/vector3i_editor.tscn" id="1_cdisb"]
+[ext_resource type="Script" path="res://editor/simulation_settings.gd" id="1_ewj4c"]
+[ext_resource type="PackedScene" uid="uid://b3cky14ct0q7y" path="res://editor/render_scene.tscn" id="1_nucwn"]
+[ext_resource type="Script" path="res://editor/main_editor.gd" id="1_qf8yh"]
+[ext_resource type="Script" path="res://editor/sources_list.gd" id="1_y3o8c"]
+[ext_resource type="PackedScene" uid="uid://b8dw028vggmek" path="res://editor/float_editor.tscn" id="2_gnmcm"]
+[ext_resource type="PackedScene" uid="uid://0p07nc8e2mwo" path="res://editor/int_editor.tscn" id="3_86eo3"]
+[ext_resource type="PackedScene" uid="uid://r8yj4gnvwxd6" path="res://editor/vector3_editor.tscn" id="3_ma31p"]
+[ext_resource type="Script" path="res://editor/source_settings.gd" id="6_kcsmh"]
+[ext_resource type="Texture2D" uid="uid://tsw6ghnmubii" path="res://editor/graphics/kf_button.svg" id="7_m5c0e"]
+[ext_resource type="Texture2D" uid="uid://b4xk1o3s0fs0l" path="res://editor/graphics/kf_button_active.svg" id="8_borjp"]
+[ext_resource type="Script" path="res://editor/keyframe_button.gd" id="9_gaics"]
+[ext_resource type="Script" path="res://editor/viewport_options.gd" id="9_pca4t"]
+[ext_resource type="Script" path="res://editor/rendering_settings.gd" id="10_0bvdo"]
+[ext_resource type="PackedScene" uid="uid://8iu4enercdw6" path="res://editor/vector2i_editor.tscn" id="10_7ji54"]
+[ext_resource type="Texture2D" uid="uid://bvs4jqnatspt6" path="res://editor/graphics/kf_button_inactive.svg" id="10_p5ijg"]
+[ext_resource type="PackedScene" uid="uid://bb32hhjmbjym5" path="res://editor/vector2_editor.tscn" id="13_8cosq"]
+[ext_resource type="Script" path="res://editor/sprite_sheet_generator.gd" id="15_jg07h"]
+[ext_resource type="Script" path="res://editor/custom_color_picker_button.gd" id="15_la7u1"]
+[ext_resource type="Script" path="res://editor/menu_bar.gd" id="15_m5cup"]
+[ext_resource type="Script" path="res://editor/render_progress_popup.gd" id="15_v278o"]
+[ext_resource type="Script" path="res://editor/keyframe_editor.gd" id="16_7fn8u"]
+[ext_resource type="Texture2D" uid="uid://b1vde4gc0eucc" path="res://editor/graphics/play.svg" id="16_icxom"]
+[ext_resource type="Texture2D" uid="uid://c0m65x1vlgx55" path="res://editor/graphics/pause.svg" id="17_qf436"]
+[ext_resource type="Texture2D" uid="uid://oqhwjuvej85e" path="res://editor/graphics/stop.svg" id="18_2rivi"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2vlov"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_f7vqi"]
+bg_color = Color(0, 0, 0, 0.431373)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ig32a"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_230bn"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2q252"]
+content_margin_left = 10.0
+content_margin_right = 10.0
+bg_color = Color(0.156863, 0.156863, 0.156863, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_loieq"]
+content_margin_left = 10.0
+content_margin_right = 10.0
+bg_color = Color(0.0705882, 0.0705882, 0.0705882, 1)
+
+[sub_resource type="Theme" id="Theme_lwlyf"]
+Button/styles/focus = SubResource("StyleBoxFlat_2vlov")
+Button/styles/normal = SubResource("StyleBoxFlat_f7vqi")
+LineEdit/styles/focus = SubResource("StyleBoxFlat_ig32a")
+TabContainer/styles/tab_focus = SubResource("StyleBoxFlat_230bn")
+TabContainer/styles/tab_hovered = SubResource("StyleBoxFlat_2q252")
+TabContainer/styles/tab_unselected = SubResource("StyleBoxFlat_loieq")
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_6rffv"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_22adt"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_rnmpb"]
+content_margin_left = 10.0
+content_margin_top = 10.0
+content_margin_right = 10.0
+content_margin_bottom = 10.0
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_mb4lv"]
+content_margin_left = 10.0
+content_margin_top = 10.0
+content_margin_right = 10.0
+content_margin_bottom = 10.0
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_o1v8y"]
+content_margin_left = 10.0
+content_margin_top = 10.0
+content_margin_right = 10.0
+content_margin_bottom = 10.0
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_m07pg"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6tjuo"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_lajv1"]
+content_margin_left = 5.0
+content_margin_top = 5.0
+content_margin_right = 5.0
+content_margin_bottom = 5.0
+bg_color = Color(0.0431373, 0.0431373, 0.0431373, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tc8qf"]
+content_margin_left = 10.0
+content_margin_top = 10.0
+content_margin_right = 10.0
+content_margin_bottom = 10.0
+bg_color = Color(0.128906, 0.128906, 0.128906, 1)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(0.0431373, 0.0431373, 0.0431373, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_0o6pn"]
+content_margin_left = 10.0
+content_margin_top = 10.0
+content_margin_right = 10.0
+content_margin_bottom = 10.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bp5kp"]
+content_margin_left = 5.0
+content_margin_top = 5.0
+content_margin_right = 5.0
+content_margin_bottom = 5.0
+bg_color = Color(0.0429688, 0.0429688, 0.0429688, 1)
+
+[node name="Control" type="ColorRect"]
+z_index = -2
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_lwlyf")
+color = Color(0.0431373, 0.0431373, 0.0431373, 1)
+script = ExtResource("1_qf8yh")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+z_as_relative = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="TabContainer" type="TabContainer" parent="MarginContainer"]
+layout_mode = 2
+theme_override_styles/tab_focus = SubResource("StyleBoxEmpty_6rffv")
+theme_override_styles/panel = SubResource("StyleBoxEmpty_22adt")
+theme_override_styles/tab_selected = SubResource("StyleBoxEmpty_rnmpb")
+theme_override_styles/tab_hovered = SubResource("StyleBoxEmpty_mb4lv")
+theme_override_styles/tab_unselected = SubResource("StyleBoxEmpty_o1v8y")
+tab_alignment = 1
+current_tab = 0
+
+[node name="Simulation" type="VSplitContainer" parent="MarginContainer/TabContainer"]
+layout_mode = 2
+metadata/_tab_index = 0
+
+[node name="Simulation" type="HSplitContainer" parent="MarginContainer/TabContainer/Simulation"]
+layout_mode = 2
+size_flags_vertical = 3
+split_offset = 256
+
+[node name="TabContainer" type="TabContainer" parent="MarginContainer/TabContainer/Simulation/Simulation"]
+layout_mode = 2
+current_tab = 1
+
+[node name="Sources" type="MarginContainer" parent="MarginContainer/TabContainer/Simulation/Simulation/TabContainer"]
+visible = false
+layout_mode = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+metadata/_tab_index = 0
+
+[node name="Sources" type="VBoxContainer" parent="MarginContainer/TabContainer/Simulation/Simulation/TabContainer/Sources"]
+layout_mode = 2
+
+[node name="SourcesList" type="Tree" parent="MarginContainer/TabContainer/Simulation/Simulation/TabContainer/Sources/Sources"]
+layout_mode = 2
+size_flags_vertical = 3
+focus_mode = 0
+theme_override_constants/inner_item_margin_right = 5
+theme_override_constants/inner_item_margin_left = 5
+theme_override_constants/draw_guides = 0
+theme_override_styles/panel = SubResource("StyleBoxEmpty_m07pg")
+theme_override_styles/cursor_unfocused = SubResource("StyleBoxFlat_6tjuo")
+allow_reselect = true
+allow_rmb_select = true
+hide_folding = true
+hide_root = true
+select_mode = 2
+script = ExtResource("1_y3o8c")
+
+[node name="PopupMenu" type="PopupMenu" parent="MarginContainer/TabContainer/Simulation/Simulation/TabContainer/Sources/Sources/SourcesList"]
+size = Vector2i(22, 10)
+theme_override_styles/panel = SubResource("StyleBoxFlat_lajv1")
+
+[node name="DeleteConfirmationDialog" type="ConfirmationDialog" parent="MarginContainer/TabContainer/Simulation/Simulation/TabContainer/Sources/Sources/SourcesList"]
+initial_position = 2
+size = Vector2i(206, 100)
+force_native = true
+dialog_text = "Delete all selected sources?"
+
+[node name="AddSource" type="Button" parent="MarginContainer/TabContainer/Simulation/Simulation/TabContainer/Sources/Sources"]
+layout_mode = 2
+text = "Add Source"
+
+[node name="Simulation" type="MarginContainer" parent="MarginContainer/TabContainer/Simulation/Simulation/TabContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+metadata/_tab_index = 1
+
+[node name="Simulation" type="VBoxContainer" parent="MarginContainer/TabContainer/Simulation/Simulation/TabContainer/Simulation"]
+layout_mode = 2
+script = ExtResource("1_ewj4c")
+
+[node name="ResLabel" type="Label" parent="MarginContainer/TabContainer/Simulation/Simulation/TabContainer/Simulation/Simulation"]
+layout_mode = 2
+text = "Resolution"
+
+[node name="ResolutionEditor" parent="MarginContainer/TabContainer/Simulation/Simulation/TabContainer/Simulation/Simulation" instance=ExtResource("1_cdisb")]
+layout_mode = 2
+min_value = Vector3i(2, 2, 2)
+max_value = Vector3i(1024, 1024, 1024)
+
+[node name="Simulation" type="GridContainer" parent="MarginContainer/TabContainer/Simulation/Simulation/TabContainer/Simulation/Simulation"]
+layout_mode = 2
+columns = 3
+
+[node name="GridSizeLabel" type="Label" parent="MarginContainer/TabContainer/Simulation/Simulation/TabContainer/Simulation/Simulation/Simulation"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Cell Size"
+
+[node name="GridSizeEditor" parent="MarginContainer/TabContainer/Simulation/Simulation/TabContainer/Simulation/Simulation/Simulation" instance=ExtResource("2_gnmcm")]
+layout_mode = 2
+min_value = 0.01
+drag_speed = 0.002
+
+[node name="Control" type="Control" parent="MarginContainer/TabContainer/Simulation/Simulation/TabContainer/Simulation/Simulation/Simulation"]
+layout_mode = 2
+
+[node name="JacobiLabel" type="Label" parent="MarginContainer/TabContainer/Simulation/Simulation/TabContainer/Simulation/Simulation/Simulation"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Jacobi Iterations"
+
+[node name="JacobiEditor" parent="MarginContainer/TabContainer/Simulation/Simulation/TabContainer/Simulation/Simulation/Simulation" instance=ExtResource("3_86eo3")]
+layout_mode = 2
+max_value = 50
+
+[node name="JacobiKF" type="TextureButton" parent="MarginContainer/TabContainer/Simulation/Simulation/TabContainer/Simulation/Simulation/Simulation"]
+layout_mode = 2
+toggle_mode = true
+texture_normal = ExtResource("7_m5c0e")
+texture_pressed = ExtResource("8_borjp")
+stretch_mode = 5
+script = ExtResource("9_gaics")
+inactive_texture = ExtResource("10_p5ijg")
+keyframe_texture = ExtResource("8_borjp")
+active_texture = ExtResource("7_m5c0e")
+
+[node name="DTimeLabel" type="Label" parent="MarginContainer/TabContainer/Simulation/Simulation/TabContainer/Simulation/Simulation/Simulation"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Delta Time"
+
+[node name="DTimeEditor" parent="MarginContainer/TabContainer/Simulation/Simulation/TabContainer/Simulation/Simulation/Simulation" instance=ExtResource("2_gnmcm")]
+layout_mode = 2
+max_value = 0.3
+drag_speed = 0.001
+
+[node name="DTimeKF" type="TextureButton" parent="MarginContainer/TabContainer/Simulation/Simulation/TabContainer/Simulation/Simulation/Simulation"]
+layout_mode = 2
+toggle_mode = true
+texture_normal = ExtResource("7_m5c0e")
+texture_pressed = ExtResource("8_borjp")
+stretch_mode = 5
+script = ExtResource("9_gaics")
+inactive_texture = ExtResource("10_p5ijg")
+keyframe_texture = ExtResource("8_borjp")
+active_texture = ExtResource("7_m5c0e")
+
+[node name="DissipationLabel" type="Label" parent="MarginContainer/TabContainer/Simulation/Simulation/TabContainer/Simulation/Simulation/Simulation"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Dissipation"
+
+[node name="DissipationEditor" parent="MarginContainer/TabContainer/Simulation/Simulation/TabContainer/Simulation/Simulation/Simulation" instance=ExtResource("2_gnmcm")]
+layout_mode = 2
+
+[node name="DissipationKF" type="TextureButton" parent="MarginContainer/TabContainer/Simulation/Simulation/TabContainer/Simulation/Simulation/Simulation"]
+layout_mode = 2
+toggle_mode = true
+texture_normal = ExtResource("7_m5c0e")
+texture_pressed = ExtResource("8_borjp")
+stretch_mode = 5
+script = ExtResource("9_gaics")
+inactive_texture = ExtResource("10_p5ijg")
+keyframe_texture = ExtResource("8_borjp")
+active_texture = ExtResource("7_m5c0e")
+
+[node name="VorticityLabel" type="Label" parent="MarginContainer/TabContainer/Simulation/Simulation/TabContainer/Simulation/Simulation/Simulation"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Vorticity"
+
+[node name="VorticityEditor" parent="MarginContainer/TabContainer/Simulation/Simulation/TabContainer/Simulation/Simulation/Simulation" instance=ExtResource("2_gnmcm")]
+layout_mode = 2
+max_value = 0.8
+
+[node name="VorticityKF" type="TextureButton" parent="MarginContainer/TabContainer/Simulation/Simulation/TabContainer/Simulation/Simulation/Simulation"]
+layout_mode = 2
+toggle_mode = true
+texture_normal = ExtResource("7_m5c0e")
+texture_pressed = ExtResource("8_borjp")
+stretch_mode = 5
+script = ExtResource("9_gaics")
+inactive_texture = ExtResource("10_p5ijg")
+keyframe_texture = ExtResource("8_borjp")
+active_texture = ExtResource("7_m5c0e")
+
+[node name="BurnRateLabel" type="Label" parent="MarginContainer/TabContainer/Simulation/Simulation/TabContainer/Simulation/Simulation/Simulation"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Burn Rate"
+
+[node name="BurnRateEditor" parent="MarginContainer/TabContainer/Simulation/Simulation/TabContainer/Simulation/Simulation/Simulation" instance=ExtResource("2_gnmcm")]
+layout_mode = 2
+
+[node name="BurnRateKF" type="TextureButton" parent="MarginContainer/TabContainer/Simulation/Simulation/TabContainer/Simulation/Simulation/Simulation"]
+layout_mode = 2
+toggle_mode = true
+texture_normal = ExtResource("7_m5c0e")
+texture_pressed = ExtResource("8_borjp")
+stretch_mode = 5
+script = ExtResource("9_gaics")
+inactive_texture = ExtResource("10_p5ijg")
+keyframe_texture = ExtResource("8_borjp")
+active_texture = ExtResource("7_m5c0e")
+
+[node name="SmokeRateLabel" type="Label" parent="MarginContainer/TabContainer/Simulation/Simulation/TabContainer/Simulation/Simulation/Simulation"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Smoke Rate"
+
+[node name="SmokeRateEditor" parent="MarginContainer/TabContainer/Simulation/Simulation/TabContainer/Simulation/Simulation/Simulation" instance=ExtResource("2_gnmcm")]
+layout_mode = 2
+max_value = 10.0
+
+[node name="SmokeRateKF" type="TextureButton" parent="MarginContainer/TabContainer/Simulation/Simulation/TabContainer/Simulation/Simulation/Simulation"]
+layout_mode = 2
+toggle_mode = true
+texture_normal = ExtResource("7_m5c0e")
+texture_pressed = ExtResource("8_borjp")
+stretch_mode = 5
+script = ExtResource("9_gaics")
+inactive_texture = ExtResource("10_p5ijg")
+keyframe_texture = ExtResource("8_borjp")
+active_texture = ExtResource("7_m5c0e")
+
+[node name="BurnTempLabel" type="Label" parent="MarginContainer/TabContainer/Simulation/Simulation/TabContainer/Simulation/Simulation/Simulation"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Burn Temp"
+
+[node name="BurnTempEditor" parent="MarginContainer/TabContainer/Simulation/Simulation/TabContainer/Simulation/Simulation/Simulation" instance=ExtResource("2_gnmcm")]
+layout_mode = 2
+max_value = 10000.0
+drag_speed = 1.0
+
+[node name="BurnTempKF" type="TextureButton" parent="MarginContainer/TabContainer/Simulation/Simulation/TabContainer/Simulation/Simulation/Simulation"]
+layout_mode = 2
+toggle_mode = true
+texture_normal = ExtResource("7_m5c0e")
+texture_pressed = ExtResource("8_borjp")
+stretch_mode = 5
+script = ExtResource("9_gaics")
+inactive_texture = ExtResource("10_p5ijg")
+keyframe_texture = ExtResource("8_borjp")
+active_texture = ExtResource("7_m5c0e")
+
+[node name="CoolRateLabel" type="Label" parent="MarginContainer/TabContainer/Simulation/Simulation/TabContainer/Simulation/Simulation/Simulation"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Cool Rate"
+
+[node name="CoolRateEditor" parent="MarginContainer/TabContainer/Simulation/Simulation/TabContainer/Simulation/Simulation/Simulation" instance=ExtResource("2_gnmcm")]
+layout_mode = 2
+max_value = 1e+06
+drag_speed = 1.0
+
+[node name="CoolRateKF" type="TextureButton" parent="MarginContainer/TabContainer/Simulation/Simulation/TabContainer/Simulation/Simulation/Simulation"]
+layout_mode = 2
+toggle_mode = true
+texture_normal = ExtResource("7_m5c0e")
+texture_pressed = ExtResource("8_borjp")
+stretch_mode = 5
+script = ExtResource("9_gaics")
+inactive_texture = ExtResource("10_p5ijg")
+keyframe_texture = ExtResource("8_borjp")
+active_texture = ExtResource("7_m5c0e")
+
+[node name="BuoyancyLabel" type="Label" parent="MarginContainer/TabContainer/Simulation/Simulation/TabContainer/Simulation/Simulation/Simulation"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Buoyancy"
+
+[node name="BuoyancyEditor" parent="MarginContainer/TabContainer/Simulation/Simulation/TabContainer/Simulation/Simulation/Simulation" instance=ExtResource("2_gnmcm")]
+layout_mode = 2
+max_value = 0.2
+drag_speed = 0.001
+
+[node name="BuoyancyKF" type="TextureButton" parent="MarginContainer/TabContainer/Simulation/Simulation/TabContainer/Simulation/Simulation/Simulation"]
+layout_mode = 2
+toggle_mode = true
+texture_normal = ExtResource("7_m5c0e")
+texture_pressed = ExtResource("8_borjp")
+stretch_mode = 5
+script = ExtResource("9_gaics")
+inactive_texture = ExtResource("10_p5ijg")
+keyframe_texture = ExtResource("8_borjp")
+active_texture = ExtResource("7_m5c0e")
+
+[node name="UpLabel" type="Label" parent="MarginContainer/TabContainer/Simulation/Simulation/TabContainer/Simulation/Simulation"]
+layout_mode = 2
+text = "Up Vector"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/TabContainer/Simulation/Simulation/TabContainer/Simulation/Simulation"]
+layout_mode = 2
+
+[node name="UpEditor" parent="MarginContainer/TabContainer/Simulation/Simulation/TabContainer/Simulation/Simulation/HBoxContainer" instance=ExtResource("3_ma31p")]
+layout_mode = 2
+min_value = Vector3(-1, -1, -1)
+max_value = Vector3(1, 1, 1)
+value = Vector3(0, 1, 0)
+
+[node name="UpKF" type="TextureButton" parent="MarginContainer/TabContainer/Simulation/Simulation/TabContainer/Simulation/Simulation/HBoxContainer"]
+layout_mode = 2
+toggle_mode = true
+texture_normal = ExtResource("7_m5c0e")
+texture_pressed = ExtResource("8_borjp")
+stretch_mode = 5
+script = ExtResource("9_gaics")
+inactive_texture = ExtResource("10_p5ijg")
+keyframe_texture = ExtResource("8_borjp")
+active_texture = ExtResource("7_m5c0e")
+
+[node name="HSplitContainer" type="HSplitContainer" parent="MarginContainer/TabContainer/Simulation/Simulation"]
+layout_mode = 2
+split_offset = -256
+
+[node name="Control" type="Control" parent="MarginContainer/TabContainer/Simulation/Simulation/HSplitContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="MarginContainer/TabContainer/Simulation/Simulation/HSplitContainer/Control"]
+z_index = -2
+z_as_relative = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+stretch = true
+script = ExtResource("1_2jb7h")
+
+[node name="SubViewport" type="SubViewport" parent="MarginContainer/TabContainer/Simulation/Simulation/HSplitContainer/Control/SubViewportContainer"]
+handle_input_locally = false
+size = Vector2i(606, 512)
+render_target_update_mode = 4
+
+[node name="RenderScene" parent="MarginContainer/TabContainer/Simulation/Simulation/HSplitContainer/Control/SubViewportContainer/SubViewport" instance=ExtResource("1_nucwn")]
+
+[node name="MarginContainer2" type="MarginContainer" parent="MarginContainer/TabContainer/Simulation/Simulation/HSplitContainer/Control"]
+layout_mode = 1
+offset_right = 34.0
+offset_bottom = 41.0
+size_flags_horizontal = 0
+size_flags_vertical = 0
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="ViewportOptions" type="MenuButton" parent="MarginContainer/TabContainer/Simulation/Simulation/HSplitContainer/Control/MarginContainer2"]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "⋮"
+flat = false
+script = ExtResource("9_pca4t")
+panel = SubResource("StyleBoxFlat_lajv1")
+
+[node name="TabContainer" type="TabContainer" parent="MarginContainer/TabContainer/Simulation/Simulation/HSplitContainer"]
+layout_mode = 2
+current_tab = 1
+
+[node name="Source" type="MarginContainer" parent="MarginContainer/TabContainer/Simulation/Simulation/HSplitContainer/TabContainer"]
+visible = false
+layout_mode = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+metadata/_tab_index = 0
+
+[node name="Source" type="VBoxContainer" parent="MarginContainer/TabContainer/Simulation/Simulation/HSplitContainer/TabContainer/Source"]
+layout_mode = 2
+script = ExtResource("6_kcsmh")
+
+[node name="PositionLabel" type="Label" parent="MarginContainer/TabContainer/Simulation/Simulation/HSplitContainer/TabContainer/Source/Source"]
+layout_mode = 2
+text = "Position"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/TabContainer/Simulation/Simulation/HSplitContainer/TabContainer/Source/Source"]
+layout_mode = 2
+
+[node name="PositionEditor" parent="MarginContainer/TabContainer/Simulation/Simulation/HSplitContainer/TabContainer/Source/Source/HBoxContainer" instance=ExtResource("3_ma31p")]
+layout_mode = 2
+min_value = Vector3(-1e+09, -1e+09, -1e+09)
+max_value = Vector3(1e+09, 1e+09, 1e+09)
+
+[node name="PositionKF" type="TextureButton" parent="MarginContainer/TabContainer/Simulation/Simulation/HSplitContainer/TabContainer/Source/Source/HBoxContainer"]
+layout_mode = 2
+toggle_mode = true
+texture_normal = ExtResource("7_m5c0e")
+texture_pressed = ExtResource("8_borjp")
+stretch_mode = 5
+script = ExtResource("9_gaics")
+inactive_texture = ExtResource("10_p5ijg")
+keyframe_texture = ExtResource("8_borjp")
+active_texture = ExtResource("7_m5c0e")
+
+[node name="SlidersA" type="GridContainer" parent="MarginContainer/TabContainer/Simulation/Simulation/HSplitContainer/TabContainer/Source/Source"]
+layout_mode = 2
+columns = 3
+
+[node name="SizeLabel" type="Label" parent="MarginContainer/TabContainer/Simulation/Simulation/HSplitContainer/TabContainer/Source/Source/SlidersA"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+text = "Radius
+"
+
+[node name="SizeEditor" parent="MarginContainer/TabContainer/Simulation/Simulation/HSplitContainer/TabContainer/Source/Source/SlidersA" instance=ExtResource("2_gnmcm")]
+layout_mode = 2
+max_value = 100.0
+
+[node name="SizeKF" type="TextureButton" parent="MarginContainer/TabContainer/Simulation/Simulation/HSplitContainer/TabContainer/Source/Source/SlidersA"]
+layout_mode = 2
+toggle_mode = true
+texture_normal = ExtResource("7_m5c0e")
+texture_pressed = ExtResource("8_borjp")
+stretch_mode = 5
+script = ExtResource("9_gaics")
+inactive_texture = ExtResource("10_p5ijg")
+keyframe_texture = ExtResource("8_borjp")
+active_texture = ExtResource("7_m5c0e")
+
+[node name="SmoothLabel" type="Label" parent="MarginContainer/TabContainer/Simulation/Simulation/HSplitContainer/TabContainer/Source/Source/SlidersA"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+text = "Edge"
+
+[node name="SmoothEditor" parent="MarginContainer/TabContainer/Simulation/Simulation/HSplitContainer/TabContainer/Source/Source/SlidersA" instance=ExtResource("2_gnmcm")]
+layout_mode = 2
+drag_speed = 0.001
+
+[node name="SmoothKF" type="TextureButton" parent="MarginContainer/TabContainer/Simulation/Simulation/HSplitContainer/TabContainer/Source/Source/SlidersA"]
+layout_mode = 2
+toggle_mode = true
+texture_normal = ExtResource("7_m5c0e")
+texture_pressed = ExtResource("8_borjp")
+stretch_mode = 5
+script = ExtResource("9_gaics")
+inactive_texture = ExtResource("10_p5ijg")
+keyframe_texture = ExtResource("8_borjp")
+active_texture = ExtResource("7_m5c0e")
+
+[node name="RateLabel" type="Label" parent="MarginContainer/TabContainer/Simulation/Simulation/HSplitContainer/TabContainer/Source/Source/SlidersA"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+text = "Smoke Rate"
+
+[node name="RateEditor" parent="MarginContainer/TabContainer/Simulation/Simulation/HSplitContainer/TabContainer/Source/Source/SlidersA" instance=ExtResource("2_gnmcm")]
+layout_mode = 2
+min_value = -1e+06
+max_value = 1e+06
+drag_speed = 1.0
+
+[node name="RateKF" type="TextureButton" parent="MarginContainer/TabContainer/Simulation/Simulation/HSplitContainer/TabContainer/Source/Source/SlidersA"]
+layout_mode = 2
+toggle_mode = true
+texture_normal = ExtResource("7_m5c0e")
+texture_pressed = ExtResource("8_borjp")
+stretch_mode = 5
+script = ExtResource("9_gaics")
+inactive_texture = ExtResource("10_p5ijg")
+keyframe_texture = ExtResource("8_borjp")
+active_texture = ExtResource("7_m5c0e")
+
+[node name="FuelRateLabel" type="Label" parent="MarginContainer/TabContainer/Simulation/Simulation/HSplitContainer/TabContainer/Source/Source/SlidersA"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+text = "Fuel Rate"
+
+[node name="FuelRateEditor" parent="MarginContainer/TabContainer/Simulation/Simulation/HSplitContainer/TabContainer/Source/Source/SlidersA" instance=ExtResource("2_gnmcm")]
+layout_mode = 2
+min_value = -1e+06
+max_value = 1e+06
+drag_speed = 1.0
+
+[node name="FuelRateKF" type="TextureButton" parent="MarginContainer/TabContainer/Simulation/Simulation/HSplitContainer/TabContainer/Source/Source/SlidersA"]
+layout_mode = 2
+toggle_mode = true
+texture_normal = ExtResource("7_m5c0e")
+texture_pressed = ExtResource("8_borjp")
+stretch_mode = 5
+script = ExtResource("9_gaics")
+inactive_texture = ExtResource("10_p5ijg")
+keyframe_texture = ExtResource("8_borjp")
+active_texture = ExtResource("7_m5c0e")
+
+[node name="ExplodeLabel" type="Label" parent="MarginContainer/TabContainer/Simulation/Simulation/HSplitContainer/TabContainer/Source/Source/SlidersA"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+text = "Explode"
+
+[node name="ExplodeEditor" parent="MarginContainer/TabContainer/Simulation/Simulation/HSplitContainer/TabContainer/Source/Source/SlidersA" instance=ExtResource("2_gnmcm")]
+layout_mode = 2
+max_value = 100.0
+drag_speed = 1.0
+
+[node name="ExplodeKF" type="TextureButton" parent="MarginContainer/TabContainer/Simulation/Simulation/HSplitContainer/TabContainer/Source/Source/SlidersA"]
+layout_mode = 2
+toggle_mode = true
+texture_normal = ExtResource("7_m5c0e")
+texture_pressed = ExtResource("8_borjp")
+stretch_mode = 5
+script = ExtResource("9_gaics")
+inactive_texture = ExtResource("10_p5ijg")
+keyframe_texture = ExtResource("8_borjp")
+active_texture = ExtResource("7_m5c0e")
+
+[node name="VelocityLabel" type="Label" parent="MarginContainer/TabContainer/Simulation/Simulation/HSplitContainer/TabContainer/Source/Source"]
+layout_mode = 2
+text = "Velocity"
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="MarginContainer/TabContainer/Simulation/Simulation/HSplitContainer/TabContainer/Source/Source"]
+layout_mode = 2
+
+[node name="VelocityEditor" parent="MarginContainer/TabContainer/Simulation/Simulation/HSplitContainer/TabContainer/Source/Source/HBoxContainer2" instance=ExtResource("3_ma31p")]
+layout_mode = 2
+min_value = Vector3(-1000, -1000, -1000)
+max_value = Vector3(1000, 1000, 1000)
+
+[node name="VelocityKF" type="TextureButton" parent="MarginContainer/TabContainer/Simulation/Simulation/HSplitContainer/TabContainer/Source/Source/HBoxContainer2"]
+layout_mode = 2
+toggle_mode = true
+texture_normal = ExtResource("7_m5c0e")
+texture_pressed = ExtResource("8_borjp")
+stretch_mode = 5
+script = ExtResource("9_gaics")
+inactive_texture = ExtResource("10_p5ijg")
+keyframe_texture = ExtResource("8_borjp")
+active_texture = ExtResource("7_m5c0e")
+
+[node name="SlidersB" type="GridContainer" parent="MarginContainer/TabContainer/Simulation/Simulation/HSplitContainer/TabContainer/Source/Source"]
+layout_mode = 2
+columns = 3
+
+[node name="ForceVelLabel" type="Label" parent="MarginContainer/TabContainer/Simulation/Simulation/HSplitContainer/TabContainer/Source/Source/SlidersB"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Air Vel Factor"
+
+[node name="ForceVelEditor" parent="MarginContainer/TabContainer/Simulation/Simulation/HSplitContainer/TabContainer/Source/Source/SlidersB" instance=ExtResource("2_gnmcm")]
+layout_mode = 2
+
+[node name="ForceVelKF" type="TextureButton" parent="MarginContainer/TabContainer/Simulation/Simulation/HSplitContainer/TabContainer/Source/Source/SlidersB"]
+layout_mode = 2
+toggle_mode = true
+texture_normal = ExtResource("7_m5c0e")
+texture_pressed = ExtResource("8_borjp")
+stretch_mode = 5
+script = ExtResource("9_gaics")
+inactive_texture = ExtResource("10_p5ijg")
+keyframe_texture = ExtResource("8_borjp")
+active_texture = ExtResource("7_m5c0e")
+
+[node name="Rendering" type="MarginContainer" parent="MarginContainer/TabContainer/Simulation/Simulation/HSplitContainer/TabContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+script = ExtResource("10_0bvdo")
+metadata/_tab_index = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/TabContainer/Simulation/Simulation/HSplitContainer/TabContainer/Rendering"]
+layout_mode = 2
+
+[node name="ResolutionLabel" type="Label" parent="MarginContainer/TabContainer/Simulation/Simulation/HSplitContainer/TabContainer/Rendering/VBoxContainer"]
+layout_mode = 2
+text = "Resolution"
+
+[node name="ResolutionEditor" parent="MarginContainer/TabContainer/Simulation/Simulation/HSplitContainer/TabContainer/Rendering/VBoxContainer" instance=ExtResource("10_7ji54")]
+layout_mode = 2
+min_value = Vector2i(2, 2)
+max_value = Vector2i(2048, 2048)
+default_value = Vector2i(128, 128)
+
+[node name="OffsetLabel" type="Label" parent="MarginContainer/TabContainer/Simulation/Simulation/HSplitContainer/TabContainer/Rendering/VBoxContainer"]
+layout_mode = 2
+text = "Camera Offset"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/TabContainer/Simulation/Simulation/HSplitContainer/TabContainer/Rendering/VBoxContainer"]
+layout_mode = 2
+
+[node name="OffsetEditor" parent="MarginContainer/TabContainer/Simulation/Simulation/HSplitContainer/TabContainer/Rendering/VBoxContainer/HBoxContainer" instance=ExtResource("13_8cosq")]
+layout_mode = 2
+min_value = Vector2(-2, -2)
+max_value = Vector2(2, 2)
+
+[node name="OffsetKF" type="TextureButton" parent="MarginContainer/TabContainer/Simulation/Simulation/HSplitContainer/TabContainer/Rendering/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+toggle_mode = true
+texture_normal = ExtResource("7_m5c0e")
+texture_pressed = ExtResource("8_borjp")
+stretch_mode = 5
+script = ExtResource("9_gaics")
+inactive_texture = ExtResource("10_p5ijg")
+keyframe_texture = ExtResource("8_borjp")
+active_texture = ExtResource("7_m5c0e")
+
+[node name="GridContainer3" type="GridContainer" parent="MarginContainer/TabContainer/Simulation/Simulation/HSplitContainer/TabContainer/Rendering/VBoxContainer"]
+layout_mode = 2
+columns = 3
+
+[node name="SizeFactorLabel" type="Label" parent="MarginContainer/TabContainer/Simulation/Simulation/HSplitContainer/TabContainer/Rendering/VBoxContainer/GridContainer3"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Camera Scale"
+
+[node name="SizeFactorEditor" parent="MarginContainer/TabContainer/Simulation/Simulation/HSplitContainer/TabContainer/Rendering/VBoxContainer/GridContainer3" instance=ExtResource("2_gnmcm")]
+layout_mode = 2
+max_value = 2.0
+
+[node name="SizeFactorKF" type="TextureButton" parent="MarginContainer/TabContainer/Simulation/Simulation/HSplitContainer/TabContainer/Rendering/VBoxContainer/GridContainer3"]
+layout_mode = 2
+toggle_mode = true
+texture_normal = ExtResource("7_m5c0e")
+texture_pressed = ExtResource("8_borjp")
+stretch_mode = 5
+script = ExtResource("9_gaics")
+inactive_texture = ExtResource("10_p5ijg")
+keyframe_texture = ExtResource("8_borjp")
+active_texture = ExtResource("7_m5c0e")
+
+[node name="HSeparator" type="HSeparator" parent="MarginContainer/TabContainer/Simulation/Simulation/HSplitContainer/TabContainer/Rendering/VBoxContainer"]
+layout_mode = 2
+
+[node name="GridContainer" type="GridContainer" parent="MarginContainer/TabContainer/Simulation/Simulation/HSplitContainer/TabContainer/Rendering/VBoxContainer"]
+layout_mode = 2
+columns = 3
+
+[node name="SmokeColorLabel" type="Label" parent="MarginContainer/TabContainer/Simulation/Simulation/HSplitContainer/TabContainer/Rendering/VBoxContainer/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+text = "Smoke Color"
+
+[node name="SmokeColorEditor" type="ColorPickerButton" parent="MarginContainer/TabContainer/Simulation/Simulation/HSplitContainer/TabContainer/Rendering/VBoxContainer/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+color = Color(1, 1, 1, 1)
+edit_alpha = false
+script = ExtResource("15_la7u1")
+
+[node name="SmokeColorKF" type="TextureButton" parent="MarginContainer/TabContainer/Simulation/Simulation/HSplitContainer/TabContainer/Rendering/VBoxContainer/GridContainer"]
+layout_mode = 2
+toggle_mode = true
+texture_normal = ExtResource("7_m5c0e")
+texture_pressed = ExtResource("8_borjp")
+stretch_mode = 5
+script = ExtResource("9_gaics")
+inactive_texture = ExtResource("10_p5ijg")
+keyframe_texture = ExtResource("8_borjp")
+active_texture = ExtResource("7_m5c0e")
+
+[node name="ScatterFactorLabel" type="Label" parent="MarginContainer/TabContainer/Simulation/Simulation/HSplitContainer/TabContainer/Rendering/VBoxContainer/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Scatter Factor"
+
+[node name="ScatterFactorEditor" parent="MarginContainer/TabContainer/Simulation/Simulation/HSplitContainer/TabContainer/Rendering/VBoxContainer/GridContainer" instance=ExtResource("2_gnmcm")]
+layout_mode = 2
+
+[node name="ScatterFactorKF" type="TextureButton" parent="MarginContainer/TabContainer/Simulation/Simulation/HSplitContainer/TabContainer/Rendering/VBoxContainer/GridContainer"]
+layout_mode = 2
+toggle_mode = true
+texture_normal = ExtResource("7_m5c0e")
+texture_pressed = ExtResource("8_borjp")
+stretch_mode = 5
+script = ExtResource("9_gaics")
+inactive_texture = ExtResource("10_p5ijg")
+keyframe_texture = ExtResource("8_borjp")
+active_texture = ExtResource("7_m5c0e")
+
+[node name="EmissionLabel" type="Label" parent="MarginContainer/TabContainer/Simulation/Simulation/HSplitContainer/TabContainer/Rendering/VBoxContainer/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Emission"
+
+[node name="EmissionEditor" parent="MarginContainer/TabContainer/Simulation/Simulation/HSplitContainer/TabContainer/Rendering/VBoxContainer/GridContainer" instance=ExtResource("2_gnmcm")]
+layout_mode = 2
+max_value = 2.0
+
+[node name="EmissionKF" type="TextureButton" parent="MarginContainer/TabContainer/Simulation/Simulation/HSplitContainer/TabContainer/Rendering/VBoxContainer/GridContainer"]
+layout_mode = 2
+toggle_mode = true
+texture_normal = ExtResource("7_m5c0e")
+texture_pressed = ExtResource("8_borjp")
+stretch_mode = 5
+script = ExtResource("9_gaics")
+inactive_texture = ExtResource("10_p5ijg")
+keyframe_texture = ExtResource("8_borjp")
+active_texture = ExtResource("7_m5c0e")
+
+[node name="LightDirLabel" type="Label" parent="MarginContainer/TabContainer/Simulation/Simulation/HSplitContainer/TabContainer/Rendering/VBoxContainer"]
+layout_mode = 2
+text = "Light Direction"
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="MarginContainer/TabContainer/Simulation/Simulation/HSplitContainer/TabContainer/Rendering/VBoxContainer"]
+layout_mode = 2
+
+[node name="LightDirEditor" parent="MarginContainer/TabContainer/Simulation/Simulation/HSplitContainer/TabContainer/Rendering/VBoxContainer/HBoxContainer2" instance=ExtResource("3_ma31p")]
+layout_mode = 2
+min_value = Vector3(-1, -1, -1)
+max_value = Vector3(1, 1, 1)
+
+[node name="LightDirKF" type="TextureButton" parent="MarginContainer/TabContainer/Simulation/Simulation/HSplitContainer/TabContainer/Rendering/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+toggle_mode = true
+texture_normal = ExtResource("7_m5c0e")
+texture_pressed = ExtResource("8_borjp")
+stretch_mode = 5
+script = ExtResource("9_gaics")
+inactive_texture = ExtResource("10_p5ijg")
+keyframe_texture = ExtResource("8_borjp")
+active_texture = ExtResource("7_m5c0e")
+
+[node name="GridContainer2" type="GridContainer" parent="MarginContainer/TabContainer/Simulation/Simulation/HSplitContainer/TabContainer/Rendering/VBoxContainer"]
+layout_mode = 2
+columns = 3
+
+[node name="LightColorLabel" type="Label" parent="MarginContainer/TabContainer/Simulation/Simulation/HSplitContainer/TabContainer/Rendering/VBoxContainer/GridContainer2"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Light"
+
+[node name="LightColorEditor" type="ColorPickerButton" parent="MarginContainer/TabContainer/Simulation/Simulation/HSplitContainer/TabContainer/Rendering/VBoxContainer/GridContainer2"]
+layout_mode = 2
+size_flags_horizontal = 3
+color = Color(1, 1, 1, 1)
+edit_alpha = false
+script = ExtResource("15_la7u1")
+
+[node name="LightColorKF" type="TextureButton" parent="MarginContainer/TabContainer/Simulation/Simulation/HSplitContainer/TabContainer/Rendering/VBoxContainer/GridContainer2"]
+layout_mode = 2
+toggle_mode = true
+texture_normal = ExtResource("7_m5c0e")
+texture_pressed = ExtResource("8_borjp")
+stretch_mode = 5
+script = ExtResource("9_gaics")
+inactive_texture = ExtResource("10_p5ijg")
+keyframe_texture = ExtResource("8_borjp")
+active_texture = ExtResource("7_m5c0e")
+
+[node name="AmbientColorLabel" type="Label" parent="MarginContainer/TabContainer/Simulation/Simulation/HSplitContainer/TabContainer/Rendering/VBoxContainer/GridContainer2"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Ambient Light"
+
+[node name="AmbientColorEditor" type="ColorPickerButton" parent="MarginContainer/TabContainer/Simulation/Simulation/HSplitContainer/TabContainer/Rendering/VBoxContainer/GridContainer2"]
+layout_mode = 2
+size_flags_horizontal = 3
+color = Color(1, 1, 1, 1)
+edit_alpha = false
+script = ExtResource("15_la7u1")
+
+[node name="AmbientColorKF" type="TextureButton" parent="MarginContainer/TabContainer/Simulation/Simulation/HSplitContainer/TabContainer/Rendering/VBoxContainer/GridContainer2"]
+layout_mode = 2
+toggle_mode = true
+texture_normal = ExtResource("7_m5c0e")
+texture_pressed = ExtResource("8_borjp")
+stretch_mode = 5
+script = ExtResource("9_gaics")
+inactive_texture = ExtResource("10_p5ijg")
+keyframe_texture = ExtResource("8_borjp")
+active_texture = ExtResource("7_m5c0e")
+
+[node name="HSplitContainer" type="HSplitContainer" parent="MarginContainer/TabContainer/Simulation"]
+layout_mode = 2
+split_offset = 256
+
+[node name="PanelContainer" type="PanelContainer" parent="MarginContainer/TabContainer/Simulation/HSplitContainer"]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/TabContainer/Simulation/HSplitContainer/PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="GridContainer" type="GridContainer" parent="MarginContainer/TabContainer/Simulation/HSplitContainer/PanelContainer/MarginContainer"]
+layout_mode = 2
+columns = 2
+
+[node name="WarmupLabel" type="Label" parent="MarginContainer/TabContainer/Simulation/HSplitContainer/PanelContainer/MarginContainer/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Warmup"
+
+[node name="WarmupEditor" parent="MarginContainer/TabContainer/Simulation/HSplitContainer/PanelContainer/MarginContainer/GridContainer" instance=ExtResource("3_86eo3")]
+layout_mode = 2
+max_value = 1000
+
+[node name="LengthLabel" type="Label" parent="MarginContainer/TabContainer/Simulation/HSplitContainer/PanelContainer/MarginContainer/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Length"
+
+[node name="LengthEditor" parent="MarginContainer/TabContainer/Simulation/HSplitContainer/PanelContainer/MarginContainer/GridContainer" instance=ExtResource("3_86eo3")]
+layout_mode = 2
+max_value = 5000
+value = 60
+
+[node name="PanelContainer2" type="PanelContainer" parent="MarginContainer/TabContainer/Simulation/HSplitContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/TabContainer/Simulation/HSplitContainer/PanelContainer2"]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/TabContainer/Simulation/HSplitContainer/PanelContainer2/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/TabContainer/Simulation/HSplitContainer/PanelContainer2/VBoxContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="PlayButton" type="TextureButton" parent="MarginContainer/TabContainer/Simulation/HSplitContainer/PanelContainer2/VBoxContainer/MarginContainer/HBoxContainer"]
+layout_mode = 2
+toggle_mode = true
+texture_normal = ExtResource("16_icxom")
+texture_pressed = ExtResource("17_qf436")
+stretch_mode = 5
+
+[node name="StopButton" type="TextureButton" parent="MarginContainer/TabContainer/Simulation/HSplitContainer/PanelContainer2/VBoxContainer/MarginContainer/HBoxContainer"]
+layout_mode = 2
+toggle_mode = true
+texture_normal = ExtResource("18_2rivi")
+stretch_mode = 5
+
+[node name="AnimationSelector" type="OptionButton" parent="MarginContainer/TabContainer/Simulation/HSplitContainer/PanelContainer2/VBoxContainer/MarginContainer/HBoxContainer"]
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+
+[node name="ScrollContainer" type="ScrollContainer" parent="MarginContainer/TabContainer/Simulation/HSplitContainer/PanelContainer2/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/TabContainer/Simulation/HSplitContainer/PanelContainer2/VBoxContainer/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/margin_left = 3
+theme_override_constants/margin_right = 3
+theme_override_constants/margin_bottom = 3
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/TabContainer/Simulation/HSplitContainer/PanelContainer2/VBoxContainer/ScrollContainer/MarginContainer"]
+clip_contents = true
+layout_mode = 2
+theme_override_constants/margin_left = 2
+theme_override_constants/margin_right = 2
+theme_override_constants/margin_bottom = 2
+
+[node name="KeyframeEditor" type="Control" parent="MarginContainer/TabContainer/Simulation/HSplitContainer/PanelContainer2/VBoxContainer/ScrollContainer/MarginContainer/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource("16_7fn8u")
+kf_texture = ExtResource("7_m5c0e")
+kf_texture_highlight = ExtResource("8_borjp")
+
+[node name="Sprite Sheet" type="Control" parent="MarginContainer/TabContainer"]
+visible = false
+layout_mode = 2
+metadata/_tab_index = 1
+
+[node name="HSplitContainer" type="HSplitContainer" parent="MarginContainer/TabContainer/Sprite Sheet"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+split_offset = 256
+
+[node name="Container" type="PanelContainer" parent="MarginContainer/TabContainer/Sprite Sheet/HSplitContainer"]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/TabContainer/Sprite Sheet/HSplitContainer/Container"]
+layout_mode = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/TabContainer/Sprite Sheet/HSplitContainer/Container/MarginContainer"]
+layout_mode = 2
+
+[node name="ResolutionLabel" type="Label" parent="MarginContainer/TabContainer/Sprite Sheet/HSplitContainer/Container/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Resolution: "
+
+[node name="GridLabel" type="Label" parent="MarginContainer/TabContainer/Sprite Sheet/HSplitContainer/Container/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Grid"
+
+[node name="GridEditor" parent="MarginContainer/TabContainer/Sprite Sheet/HSplitContainer/Container/MarginContainer/VBoxContainer" instance=ExtResource("10_7ji54")]
+layout_mode = 2
+min_value = Vector2i(1, 1)
+max_value = Vector2i(16, 16)
+default_value = Vector2i(1, 1)
+
+[node name="GridContainer" type="GridContainer" parent="MarginContainer/TabContainer/Sprite Sheet/HSplitContainer/Container/MarginContainer/VBoxContainer"]
+layout_mode = 2
+columns = 2
+
+[node name="SkipLabel" type="Label" parent="MarginContainer/TabContainer/Sprite Sheet/HSplitContainer/Container/MarginContainer/VBoxContainer/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Skip Frames"
+
+[node name="SkipEditor" parent="MarginContainer/TabContainer/Sprite Sheet/HSplitContainer/Container/MarginContainer/VBoxContainer/GridContainer" instance=ExtResource("3_86eo3")]
+layout_mode = 2
+max_value = 100
+
+[node name="HSeparator" type="HSeparator" parent="MarginContainer/TabContainer/Sprite Sheet/HSplitContainer/Container/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="RenderButton" type="Button" parent="MarginContainer/TabContainer/Sprite Sheet/HSplitContainer/Container/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Render"
+
+[node name="ExportButton" type="Button" parent="MarginContainer/TabContainer/Sprite Sheet/HSplitContainer/Container/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Export
+"
+
+[node name="SpriteSheetGenerator" type="TextureRect" parent="MarginContainer/TabContainer/Sprite Sheet/HSplitContainer"]
+layout_mode = 2
+expand_mode = 1
+stretch_mode = 5
+script = ExtResource("15_jg07h")
+
+[node name="MenuBar" type="MenuBar" parent="."]
+z_as_relative = false
+layout_mode = 0
+offset_right = 109.0
+offset_bottom = 40.0
+theme_override_styles/hover = SubResource("StyleBoxFlat_tc8qf")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_tc8qf")
+theme_override_styles/normal = SubResource("StyleBoxEmpty_0o6pn")
+script = ExtResource("15_m5cup")
+
+[node name="File" type="PopupMenu" parent="MenuBar"]
+size = Vector2i(300, 200)
+min_size = Vector2i(300, 0)
+theme_override_styles/panel = SubResource("StyleBoxFlat_bp5kp")
+
+[node name="Edit" type="PopupMenu" parent="MenuBar"]
+auto_translate_mode = 1
+size = Vector2i(300, 100)
+min_size = Vector2i(300, 0)
+theme_override_styles/panel = SubResource("StyleBoxFlat_bp5kp")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+visible = false
+z_as_relative = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.658824)
+script = ExtResource("15_v278o")
+
+[node name="PanelContainer" type="PanelContainer" parent="ColorRect"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -66.5
+offset_top = -20.0
+offset_right = 66.5
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="ColorRect/PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ColorRect/PanelContainer/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Label" type="Label" parent="ColorRect/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Rendering Frame"
+
+[node name="ProgressBar" type="ProgressBar" parent="ColorRect/PanelContainer/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+
+[connection signal="pressed" from="MarginContainer/TabContainer/Simulation/Simulation/TabContainer/Sources/Sources/AddSource" to="MarginContainer/TabContainer/Simulation/Simulation/TabContainer/Sources/Sources/SourcesList" method="_on_add_source_pressed"]
+[connection signal="pressed" from="MarginContainer/TabContainer/Sprite Sheet/HSplitContainer/Container/MarginContainer/VBoxContainer/RenderButton" to="MarginContainer/TabContainer/Sprite Sheet/HSplitContainer/SpriteSheetGenerator" method="generate"]

@@ -1,0 +1,14 @@
+[remap]
+
+importer="glsl"
+type="RDShaderFile"
+uid="uid://clkacc5tp10px"
+path="res://.godot/imported/vorticity_confinement.glsl-6e73a1e48c8f40be05a2b4e0b9723c4e.res"
+
+[deps]
+
+source_file="res://simulation/vorticity_confinement.glsl"
+dest_files=["res://.godot/imported/vorticity_confinement.glsl-6e73a1e48c8f40be05a2b4e0b9723c4e.res"]
+
+[params]
+

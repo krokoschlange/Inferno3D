@@ -1,0 +1,14 @@
+[remap]
+
+importer="glsl"
+type="RDShaderFile"
+uid="uid://b6wearywh153p"
+path="res://.godot/imported/gradient_subtract.glsl-1bd325ea3e3b3e397e171dfb374da3e1.res"
+
+[deps]
+
+source_file="res://simulation/gradient_subtract.glsl"
+dest_files=["res://.godot/imported/gradient_subtract.glsl-1bd325ea3e3b3e397e171dfb374da3e1.res"]
+
+[params]
+

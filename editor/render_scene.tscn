@@ -1,0 +1,67 @@
+[gd_scene load_steps=12 format=3 uid="uid://b3cky14ct0q7y"]
+
+[ext_resource type="Script" path="res://editor/render_camera.gd" id="1_2c2xe"]
+[ext_resource type="PackedScene" uid="uid://cqlt4v4sfg6fa" path="res://editor/orbit_camera.tscn" id="1_cv0yx"]
+[ext_resource type="Script" path="res://simulation/fluids.gd" id="1_iq7u7"]
+[ext_resource type="Script" path="res://editor/render_scene.gd" id="1_pnqg0"]
+[ext_resource type="Script" path="res://simulation/smoke_source.gd" id="2_mx7lm"]
+[ext_resource type="Material" uid="uid://b2pi6oawxddbp" path="res://editor/wireframe.tres" id="5_7do5c"]
+[ext_resource type="Script" path="res://editor/wireframe_cube.gd" id="6_01nbv"]
+[ext_resource type="PackedScene" uid="uid://drw2gpqj27evj" path="res://editor/translation_gizmo.tscn" id="8_l80bu"]
+
+[sub_resource type="ImmediateMesh" id="ImmediateMesh_nj0bd"]
+script = ExtResource("6_01nbv")
+size = Vector3(1, 1, 1)
+
+[sub_resource type="ImmediateMesh" id="ImmediateMesh_cij68"]
+script = ExtResource("6_01nbv")
+size = Vector3(12.8, 12.8, 12.8)
+
+[sub_resource type="Environment" id="Environment_00kq8"]
+background_mode = 1
+background_color = Color(0.15625, 0.15625, 0.15625, 1)
+
+[node name="RenderScene" type="Node3D"]
+script = ExtResource("1_pnqg0")
+
+[node name="OrbitCamera" parent="." instance=ExtResource("1_cv0yx")]
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.4, 6.4, 13.8)
+cull_mask = 1048573
+projection = 1
+size = 12.8
+near = 0.5
+far = 14.3
+script = ExtResource("1_2c2xe")
+
+[node name="Bounds" type="MeshInstance3D" parent="Camera3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -6.4, 0)
+layers = 2
+mesh = SubResource("ImmediateMesh_nj0bd")
+skeleton = NodePath("../../SmokeSim")
+surface_material_override/0 = ExtResource("5_7do5c")
+
+[node name="SmokeSim" type="Node3D" parent="."]
+script = ExtResource("1_iq7u7")
+vorticity_confinement_factor = 0.15
+
+[node name="Source" type="Node3D" parent="SmokeSim"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.4, 0, 6.4)
+script = ExtResource("2_mx7lm")
+
+[node name="Bounds" type="MeshInstance3D" parent="SmokeSim"]
+layers = 2
+mesh = SubResource("ImmediateMesh_cij68")
+surface_material_override/0 = ExtResource("5_7do5c")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_00kq8")
+
+[node name="TranslationGizmo" parent="." instance=ExtResource("8_l80bu")]
+transform = Transform3D(0.892639, 0, 0, 0, 0.892639, 0, 0, 0, 0.892639, 6.76146, 0, 6.55201)
+
+[node name="RayCast3D" type="RayCast3D" parent="."]
+enabled = false
+collide_with_areas = true
+collide_with_bodies = false

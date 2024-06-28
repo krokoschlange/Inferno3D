@@ -1,0 +1,23 @@
+[gd_scene load_steps=3 format=3 uid="uid://r8yj4gnvwxd6"]
+
+[ext_resource type="PackedScene" uid="uid://b8dw028vggmek" path="res://editor/float_editor.tscn" id="1_7uqxl"]
+[ext_resource type="Script" path="res://editor/vector3_editor.gd" id="1_y7r2j"]
+
+[node name="Vector3Editor" type="GridContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+columns = 3
+script = ExtResource("1_y7r2j")
+
+[node name="FloatEditor" parent="." instance=ExtResource("1_7uqxl")]
+layout_mode = 2
+
+[node name="FloatEditor2" parent="." instance=ExtResource("1_7uqxl")]
+layout_mode = 2
+
+[node name="FloatEditor3" parent="." instance=ExtResource("1_7uqxl")]
+layout_mode = 2

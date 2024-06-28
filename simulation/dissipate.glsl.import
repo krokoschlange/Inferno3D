@@ -1,0 +1,14 @@
+[remap]
+
+importer="glsl"
+type="RDShaderFile"
+uid="uid://buedoswlcbu2j"
+path="res://.godot/imported/dissipate.glsl-b909407ef2ac038fca061705ac7777f0.res"
+
+[deps]
+
+source_file="res://simulation/dissipate.glsl"
+dest_files=["res://.godot/imported/dissipate.glsl-b909407ef2ac038fca061705ac7777f0.res"]
+
+[params]
+

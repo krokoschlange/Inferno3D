@@ -1,0 +1,74 @@
+[gd_scene load_steps=7 format=3 uid="uid://drw2gpqj27evj"]
+
+[ext_resource type="Script" path="res://editor/translation_gizmo.gd" id="1_x731e"]
+[ext_resource type="ArrayMesh" uid="uid://df0qt2vthm48w" path="res://editor/arrow.obj" id="2_4vvd6"]
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_hsgl1"]
+height = 1.5
+radius = 0.2
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_upu5t"]
+no_depth_test = true
+shading_mode = 0
+albedo_color = Color(0.866667, 0.113725, 0.141176, 1)
+point_size = 60.7
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_vk5tt"]
+depth_draw_mode = 2
+no_depth_test = true
+shading_mode = 0
+albedo_color = Color(0.282353, 0.694118, 0, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_1jkp0"]
+no_depth_test = true
+shading_mode = 0
+albedo_color = Color(0.173008, 0.464062, 0.695312, 1)
+
+[node name="TranslationGizmo" type="Node3D"]
+script = ExtResource("1_x731e")
+
+[node name="MouseColliderX" type="Area3D" parent="."]
+collision_layer = 3
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="MouseColliderX"]
+transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, 1, 0, 0)
+shape = SubResource("CylinderShape3D_hsgl1")
+
+[node name="ArrowX" type="MeshInstance3D" parent="MouseColliderX"]
+transform = Transform3D(-4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0, 1, 0.25, 0, 0)
+layers = 2
+sorting_offset = 1e+08
+mesh = ExtResource("2_4vvd6")
+skeleton = NodePath("../..")
+surface_material_override/0 = SubResource("StandardMaterial3D_upu5t")
+
+[node name="MouseColliderY" type="Area3D" parent="."]
+collision_layer = 3
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="MouseColliderY"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("CylinderShape3D_hsgl1")
+
+[node name="ArrowY" type="MeshInstance3D" parent="MouseColliderY"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.25, 0)
+layers = 2
+sorting_offset = 1e+08
+mesh = ExtResource("2_4vvd6")
+skeleton = NodePath("../..")
+surface_material_override/0 = SubResource("StandardMaterial3D_vk5tt")
+
+[node name="MouseColliderZ" type="Area3D" parent="."]
+collision_layer = 3
+priority = 1
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="MouseColliderZ"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 1)
+shape = SubResource("CylinderShape3D_hsgl1")
+
+[node name="ArrowZ" type="MeshInstance3D" parent="MouseColliderZ"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0.25)
+layers = 2
+sorting_offset = 1e+08
+mesh = ExtResource("2_4vvd6")
+skeleton = NodePath("../..")
+surface_material_override/0 = SubResource("StandardMaterial3D_1jkp0")
