@@ -99,4 +99,3 @@ class ActionGroup:
 			action.undo()
 		if update_ui:
 			update_ui.call()
-

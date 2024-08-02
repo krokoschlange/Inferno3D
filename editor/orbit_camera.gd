@@ -49,4 +49,3 @@ func recenter(pos: Vector3) -> void:
 	if camera.current:
 		var tween: Tween = create_tween()
 		tween.tween_property(self, "global_position", pos, 0.1)
-

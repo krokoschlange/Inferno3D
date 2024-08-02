@@ -13,6 +13,10 @@ var render_resolution := Vector2i(128, 128):
 			stretch = true
 			stretch = false
 			sub_viewport.size = render_resolution
+		render_scene.albedo_vp.size = render_resolution
+		render_scene.emission_vp.size = render_resolution
+		render_scene.normal_vp.size = render_resolution
+		render_scene.velocity_vp.size = render_resolution
 var render_offset: Vector2:
 	set(value):
 		render_scene.camera_3d.offset = value
@@ -30,6 +34,7 @@ func _ready() -> void:
 	#pause_check_box.toggled.connect(render_scene.pause_simulation)
 	viewport_options.preview_toggled.connect(set_preview)
 	viewport_options.pause_toggled.connect(set_pause)
+	viewport_options.render_mode_changed.connect(set_render_mode)
 	render_resolution = Vector2i(128, 128)
 
 
@@ -60,3 +65,9 @@ func set_preview(on: bool) -> void:
 func set_pause(on: bool) -> void:
 	render_scene.pause_simulation(on)
 	viewport_options.set_pause(on)
+
+func set_render_mode(mode: int) -> void:
+	var base_mask: int = 1 & sub_viewport.get_camera_3d().cull_mask
+	var mask: int = base_mask | (1 << mode + 1)
+	sub_viewport.get_camera_3d().cull_mask = mask
+	viewport_options.set_render_mode(mode)

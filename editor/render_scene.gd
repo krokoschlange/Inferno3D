@@ -4,11 +4,17 @@ extends Node3D
 signal source_selected(source: SmokeSource, add: bool)
 
 @onready var orbit_camera: OrbitCamera = $OrbitCamera
-@onready var camera_3d: RenderCamera = $Camera3D
+@onready var camera_3d: RenderCamera = $RenderCam
 @onready var bounds: MeshInstance3D = $SmokeSim/Bounds
 @onready var smoke_sim: SmokeSim = $SmokeSim
 @onready var translation_gizmo: TranslationGizmo = $TranslationGizmo
 @onready var ray_cast: RayCast3D = $RayCast3D
+
+@onready var albedo_vp: SubViewport = $AlbedoVP
+@onready var emission_vp: SubViewport = $EmissionVP
+@onready var normal_vp: SubViewport = $NormalVP
+@onready var velocity_vp: SubViewport = $VelocityVP
+
 
 var object_pick_handled: bool = false
 var picked_object: CollisionObject3D

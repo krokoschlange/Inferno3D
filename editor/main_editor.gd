@@ -6,7 +6,7 @@ extends Control
 @onready var simulation: SimulationSettings = $MarginContainer/TabContainer/Simulation/Simulation/TabContainer/Simulation/Simulation
 @onready var rendering: RenderingSettings = $MarginContainer/TabContainer/Simulation/Simulation/HSplitContainer/TabContainer/Rendering
 @onready var sub_viewport_container: RenderSceneVP = $MarginContainer/TabContainer/Simulation/Simulation/HSplitContainer/Control/SubViewportContainer
-@onready var sprite_sheet_generator: SpriteSheetGenerator = $"MarginContainer/TabContainer/Sprite Sheet/HSplitContainer/SpriteSheetGenerator"
+@onready var sprite_sheet_generator: SpriteSheetGenerator = $"MarginContainer/TabContainer/Sprite Sheet/HSplitContainer/VSplitContainer/SpriteSheetGenerator"
 @onready var progress: RenderProgressPopup = $ColorRect
 @onready var source: SourceSettings = $MarginContainer/TabContainer/Simulation/Simulation/HSplitContainer/TabContainer/Source/Source
 
@@ -25,6 +25,7 @@ func _ready() -> void:
 	sprite_sheet_generator.smoke_sim = render_scene.smoke_sim
 	sprite_sheet_generator.viewport = sub_viewport_container
 	sprite_sheet_generator.progress = progress
+	sprite_sheet_generator.update_ui()
 	
 	FileIO.render_scene = render_scene
 	FileIO.render_scene_vp = sub_viewport_container
@@ -40,4 +41,3 @@ func update_ui() -> void:
 	sources_list.update_ui()
 	simulation.update_ui()
 	rendering.update_ui()
-

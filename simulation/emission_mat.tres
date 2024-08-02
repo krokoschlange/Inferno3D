@@ -1,0 +1,26 @@
+[gd_resource type="ShaderMaterial" load_steps=7 format=3 uid="uid://bt0gg2yubtgbr"]
+
+[ext_resource type="Shader" path="res://simulation/emission.gdshader" id="1_mn8y8"]
+[ext_resource type="Texture2D" uid="uid://c6jdg7t0i0n61" path="res://simulation/blackbody_gradient.tres" id="2_x3d3a"]
+[ext_resource type="Texture2D" uid="uid://5r83cu2e4dui" path="res://simulation/LDR_LLL1_0.png" id="3_7j632"]
+
+[sub_resource type="Texture3DRD" id="Texture3DRD_7bi2r"]
+
+[sub_resource type="Texture3DRD" id="Texture3DRD_1vjs4"]
+
+[sub_resource type="Texture3DRD" id="Texture3DRD_0c5tn"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_mn8y8")
+shader_parameter/emission_intensity = 0.3
+shader_parameter/size = Vector3(12.8, 12.8, 12.8)
+shader_parameter/samples = 500
+shader_parameter/step_size = 0.0443405
+shader_parameter/scatter_factor = 0.5
+shader_parameter/frame_i = 306.0
+shader_parameter/density = SubResource("Texture3DRD_7bi2r")
+shader_parameter/fuel = SubResource("Texture3DRD_1vjs4")
+shader_parameter/temperature = SubResource("Texture3DRD_0c5tn")
+shader_parameter/blackbody_lut = ExtResource("2_x3d3a")
+shader_parameter/blue_noise = ExtResource("3_7j632")

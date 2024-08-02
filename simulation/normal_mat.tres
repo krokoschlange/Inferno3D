@@ -1,0 +1,19 @@
+[gd_resource type="ShaderMaterial" load_steps=4 format=3 uid="uid://whfoq0sbxrlq"]
+
+[ext_resource type="Shader" path="res://simulation/normal.gdshader" id="1_to8rx"]
+[ext_resource type="Texture2D" uid="uid://5r83cu2e4dui" path="res://simulation/LDR_LLL1_0.png" id="2_gnfrd"]
+
+[sub_resource type="Texture3DRD" id="Texture3DRD_pcwly"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_to8rx")
+shader_parameter/normal_smoothness = 1.0
+shader_parameter/normal_strength = 1.0
+shader_parameter/size = Vector3(12.8, 12.8, 12.8)
+shader_parameter/samples = 500
+shader_parameter/step_size = 0.0443405
+shader_parameter/scatter_factor = 0.5
+shader_parameter/frame_i = 581.0
+shader_parameter/density = SubResource("Texture3DRD_pcwly")
+shader_parameter/blue_noise = ExtResource("2_gnfrd")

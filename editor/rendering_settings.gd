@@ -16,6 +16,10 @@ extends Control
 @onready var light_dir_editor: Vector3Editor = $VBoxContainer/HBoxContainer2/LightDirEditor
 @onready var light_color_editor: CustomColorPickerButton = $VBoxContainer/GridContainer2/LightColorEditor
 @onready var ambient_color_editor: CustomColorPickerButton = $VBoxContainer/GridContainer2/AmbientColorEditor
+@onready var normal_strength_editor: FloatEditor = $VBoxContainer/GridContainer4/NormalStrengthEditor
+@onready var normal_smoothness_editor: FloatEditor = $VBoxContainer/GridContainer4/NormalSmoothnessEditor
+@onready var velocity_strength_editor: FloatEditor = $VBoxContainer/GridContainer4/VelocityStrengthEditor
+
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -90,6 +94,16 @@ func _ready() -> void:
 	ambient_color_editor.color_changed.connect(func (new_value: Color) -> void: smoke_sim.ambient_light = new_value)
 	ambient_color_editor.action_complete.connect(func (new_color: Color, old_color: Color) -> void:
 		EditHistory.submit_object_actions([smoke_sim], "ambient_light", [old_color], [new_color], update_ui))
+	
+	normal_strength_editor.value_changed.connect(func (new_value: float) -> void: smoke_sim.normal_strength = new_value)
+	normal_strength_editor.action_complete.connect(func (new_value: float, old_value: float) -> void:
+		EditHistory.submit_object_actions([smoke_sim], "normal_strength", [old_value], [new_value], update_ui))
+	normal_smoothness_editor.value_changed.connect(func (new_value: float) -> void: smoke_sim.normal_smoothness = new_value)
+	normal_smoothness_editor.action_complete.connect(func (new_value: float, old_value: float) -> void:
+		EditHistory.submit_object_actions([smoke_sim], "normal_smoothness", [old_value], [new_value], update_ui))
+	velocity_strength_editor.value_changed.connect(func (new_value: float) -> void: smoke_sim.velocity_map_strength = new_value)
+	velocity_strength_editor.action_complete.connect(func (new_value: float, old_value: float) -> void:
+		EditHistory.submit_object_actions([smoke_sim], "velocity_map_strength", [old_value], [new_value], update_ui))
 
 
 func update_ui() -> void:
@@ -102,6 +116,9 @@ func update_ui() -> void:
 	light_dir_editor.set_value_no_signal(smoke_sim.light_direction)
 	light_color_editor.color = smoke_sim.light_color
 	ambient_color_editor.color = smoke_sim.ambient_light
+	normal_strength_editor.set_value_no_signal(smoke_sim.normal_strength)
+	normal_smoothness_editor.set_value_no_signal(smoke_sim.normal_smoothness)
+	velocity_strength_editor.set_value_no_signal(smoke_sim.velocity_map_strength)
 	
 	$VBoxContainer/HBoxContainer/OffsetKF.connect_property(render_scene_vp, "render_offset", update_ui, "Rendering: Camera Offset")
 	$VBoxContainer/GridContainer3/SizeFactorKF.connect_property(render_scene_vp, "render_scale", update_ui, "Rendering: Camera Scale")

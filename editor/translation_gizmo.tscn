@@ -36,7 +36,6 @@ shape = SubResource("CylinderShape3D_hsgl1")
 
 [node name="ArrowX" type="MeshInstance3D" parent="MouseColliderX"]
 transform = Transform3D(-4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0, 1, 0.25, 0, 0)
-layers = 2
 sorting_offset = 1e+08
 mesh = ExtResource("2_4vvd6")
 skeleton = NodePath("../..")
@@ -51,7 +50,6 @@ shape = SubResource("CylinderShape3D_hsgl1")
 
 [node name="ArrowY" type="MeshInstance3D" parent="MouseColliderY"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.25, 0)
-layers = 2
 sorting_offset = 1e+08
 mesh = ExtResource("2_4vvd6")
 skeleton = NodePath("../..")
@@ -67,7 +65,6 @@ shape = SubResource("CylinderShape3D_hsgl1")
 
 [node name="ArrowZ" type="MeshInstance3D" parent="MouseColliderZ"]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0.25)
-layers = 2
 sorting_offset = 1e+08
 mesh = ExtResource("2_4vvd6")
 skeleton = NodePath("../..")

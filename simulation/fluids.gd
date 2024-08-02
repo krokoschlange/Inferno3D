@@ -54,24 +54,39 @@ var temperature_tex: RID
 var fuel_tex: RID
 
 var volume := MeshInstance3D.new()
+var albedo_volume := MeshInstance3D.new()
+var emission_volume := MeshInstance3D.new()
+var normal_volume := MeshInstance3D.new()
+var velocity_volume := MeshInstance3D.new()
 var fog_mat: ShaderMaterial = load("res://simulation/volumetric.tres")
+var albedo_mat: ShaderMaterial = load("res://simulation/albedo_mat.tres")
+var emission_mat: ShaderMaterial = load("res://simulation/emission_mat.tres")
+var normal_mat: ShaderMaterial = load("res://simulation/normal_mat.tres")
+var velocity_mat: ShaderMaterial = load("res://simulation/velocity_mat.tres")
 var fog_mat_dens_tex := Texture3DRD.new()
 var fog_mat_temp_tex := Texture3DRD.new()
 var fog_mat_fuel_tex := Texture3DRD.new()
+var vel_mat_vel_tex := Texture3DRD.new()
 var light_node := DirectionalLight3D.new()
 
 var smoke_color := Color.WHITE:
 	set(value):
 		smoke_color = value
 		fog_mat.set_shader_parameter("smoke_color", smoke_color)
+		albedo_mat.set_shader_parameter("smoke_color", smoke_color)
 var scatter_factor: float = 0.5:
 	set(value):
 		scatter_factor = value
 		fog_mat.set_shader_parameter("scatter_factor", scatter_factor)
+		albedo_mat.set_shader_parameter("scatter_factor", scatter_factor)
+		emission_mat.set_shader_parameter("scatter_factor", scatter_factor)
+		normal_mat.set_shader_parameter("scatter_factor", scatter_factor)
+		velocity_mat.set_shader_parameter("scatter_factor", scatter_factor)
 var emission_intensity: float = 0.3:
 	set(value):
 		emission_intensity = value
 		fog_mat.set_shader_parameter("emission_intensity", emission_intensity)
+		emission_mat.set_shader_parameter("emission_intensity", emission_intensity)
 var light_direction := Vector3(0, -1, 0):
 	set(value):
 		light_direction = value
@@ -88,10 +103,26 @@ var light_color := Color.WHITE:
 	set(value):
 		light_color = value
 		fog_mat.set_shader_parameter("light_color", light_color)
+		albedo_mat.set_shader_parameter("light_color", light_color)
 var ambient_light := Color(0.148, 0.148, 0.148):
 	set(value):
 		ambient_light = value
 		fog_mat.set_shader_parameter("ambient_light", ambient_light)
+		albedo_mat.set_shader_parameter("ambient_light", ambient_light)
+
+var normal_strength: float = 1.0:
+	set(value):
+		normal_strength = value
+		normal_mat.set_shader_parameter("normal_strength", normal_strength)
+var normal_smoothness: float = 1.0:
+	set(value):
+		normal_smoothness = value
+		normal_mat.set_shader_parameter("normal_smoothness", normal_smoothness)
+var velocity_map_strength: float = 1.0:
+	set(value):
+		velocity_map_strength = value
+		velocity_mat.set_shader_parameter("velocity_factor", velocity_map_strength)
+
 
 var frame_i: float
 
@@ -105,8 +136,28 @@ func _ready() -> void:
 	var mesh := BoxMesh.new()
 	mesh.size = Vector3(1, 1, 1)
 	volume.mesh = mesh
+	albedo_volume.mesh = mesh
+	emission_volume.mesh = mesh
+	normal_volume.mesh = mesh
+	velocity_volume.mesh = mesh
+	
+	volume.layers = 2
+	albedo_volume.layers = 4
+	emission_volume.layers = 8
+	normal_volume.layers = 16
+	velocity_volume.layers = 32
+	
 	add_child(volume)
+	add_child(albedo_volume)
+	add_child(emission_volume)
+	add_child(normal_volume)
+	add_child(velocity_volume)
 	volume.material_override = fog_mat
+	albedo_volume.material_override = albedo_mat
+	emission_volume.material_override = emission_mat
+	normal_volume.material_override = normal_mat
+	velocity_volume.material_override = velocity_mat
+	
 	bounds.mesh = bounds_mesh
 	add_child(light_node)
 
@@ -115,9 +166,15 @@ func _process(delta: float) -> void:
 		run()
 	volume.owner = null
 	fog_mat.set_shader_parameter("frame_i", frame_i)
+	albedo_mat.set_shader_parameter("frame_i", frame_i)
+	emission_mat.set_shader_parameter("frame_i", frame_i)
+	normal_mat.set_shader_parameter("frame_i", frame_i)
+	velocity_mat.set_shader_parameter("frame_i", frame_i)
+	
 	frame_i = frame_i + 1
 	frame_i = fmod(frame_i, 1024)
 	fog_mat.set_shader_parameter("light_dir", -light_direction)
+	albedo_mat.set_shader_parameter("light_dir", -light_direction)
 
 func _enter_tree() -> void:
 	print("creating simulation buffers")
@@ -126,9 +183,18 @@ func _enter_tree() -> void:
 	fog_mat_dens_tex.texture_rd_rid = density_tex
 	fog_mat_temp_tex.texture_rd_rid = temperature_tex
 	fog_mat_fuel_tex.texture_rd_rid = fuel_tex
+	vel_mat_vel_tex.texture_rd_rid = velocity_tex
 	fog_mat.set_shader_parameter("density", fog_mat_dens_tex)
 	fog_mat.set_shader_parameter("temperature", fog_mat_temp_tex)
 	fog_mat.set_shader_parameter("fuel", fog_mat_fuel_tex)
+	albedo_mat.set_shader_parameter("density", fog_mat_dens_tex)
+	emission_mat.set_shader_parameter("density", fog_mat_dens_tex)
+	emission_mat.set_shader_parameter("temperature", fog_mat_temp_tex)
+	emission_mat.set_shader_parameter("fuel", fog_mat_fuel_tex)
+	normal_mat.set_shader_parameter("density", fog_mat_dens_tex)
+	velocity_mat.set_shader_parameter("density", fog_mat_dens_tex)
+	velocity_mat.set_shader_parameter("fuel", fog_mat_fuel_tex)
+	velocity_mat.set_shader_parameter("velocity", vel_mat_vel_tex)
 	update_grid_size()
 
 func _exit_tree() -> void:
@@ -138,12 +204,27 @@ func _exit_tree() -> void:
 	fog_mat_dens_tex.texture_rd_rid = RID()
 	fog_mat_temp_tex.texture_rd_rid = RID()
 	fog_mat_fuel_tex.texture_rd_rid = RID()
+	vel_mat_vel_tex.texture_rd_rid = RID()
 
 func update_grid_size() -> void:
 	fog_mat.set_shader_parameter("size", Vector3(resolution) * grid_size)
 	fog_mat.set_shader_parameter("step_size", (Vector3(resolution) * grid_size).length() / 500)
 	fog_mat.set_shader_parameter("light_step_size", (Vector3(resolution) * grid_size).length() / 100)
+	emission_mat.set_shader_parameter("size", Vector3(resolution) * grid_size)
+	emission_mat.set_shader_parameter("step_size", (Vector3(resolution) * grid_size).length() / 500)
+	albedo_mat.set_shader_parameter("size", Vector3(resolution) * grid_size)
+	albedo_mat.set_shader_parameter("step_size", (Vector3(resolution) * grid_size).length() / 500)
+	albedo_mat.set_shader_parameter("light_step_size", (Vector3(resolution) * grid_size).length() / 100)
+	normal_mat.set_shader_parameter("size", Vector3(resolution) * grid_size)
+	normal_mat.set_shader_parameter("step_size", (Vector3(resolution) * grid_size).length() / 500)
+	velocity_mat.set_shader_parameter("size", Vector3(resolution) * grid_size)
+	velocity_mat.set_shader_parameter("step_size", (Vector3(resolution) * grid_size).length() / 500)
 	volume.custom_aabb = AABB(Vector3(0, 0, 0), Vector3(resolution) * grid_size)
+	albedo_volume.custom_aabb = volume.custom_aabb
+	emission_volume.custom_aabb = volume.custom_aabb
+	normal_volume.custom_aabb = volume.custom_aabb
+	velocity_volume.custom_aabb = volume.custom_aabb
+	
 	bounds_mesh.size = Vector3(resolution) * grid_size
 	
 

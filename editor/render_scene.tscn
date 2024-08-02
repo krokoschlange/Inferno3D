@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://b3cky14ct0q7y"]
+[gd_scene load_steps=13 format=3 uid="uid://b3cky14ct0q7y"]
 
 [ext_resource type="Script" path="res://editor/render_camera.gd" id="1_2c2xe"]
 [ext_resource type="PackedScene" uid="uid://cqlt4v4sfg6fa" path="res://editor/orbit_camera.tscn" id="1_cv0yx"]
@@ -8,12 +8,13 @@
 [ext_resource type="Material" uid="uid://b2pi6oawxddbp" path="res://editor/wireframe.tres" id="5_7do5c"]
 [ext_resource type="Script" path="res://editor/wireframe_cube.gd" id="6_01nbv"]
 [ext_resource type="PackedScene" uid="uid://drw2gpqj27evj" path="res://editor/translation_gizmo.tscn" id="8_l80bu"]
+[ext_resource type="Script" path="res://editor/render_camera_copy.gd" id="9_yroue"]
 
-[sub_resource type="ImmediateMesh" id="ImmediateMesh_nj0bd"]
+[sub_resource type="ImmediateMesh" id="ImmediateMesh_smxid"]
 script = ExtResource("6_01nbv")
 size = Vector3(1, 1, 1)
 
-[sub_resource type="ImmediateMesh" id="ImmediateMesh_cij68"]
+[sub_resource type="ImmediateMesh" id="ImmediateMesh_faut0"]
 script = ExtResource("6_01nbv")
 size = Vector3(12.8, 12.8, 12.8)
 
@@ -26,19 +27,18 @@ script = ExtResource("1_pnqg0")
 
 [node name="OrbitCamera" parent="." instance=ExtResource("1_cv0yx")]
 
-[node name="Camera3D" type="Camera3D" parent="."]
+[node name="RenderCam" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.4, 6.4, 13.8)
-cull_mask = 1048573
+cull_mask = 2
 projection = 1
 size = 12.8
 near = 0.5
 far = 14.3
 script = ExtResource("1_2c2xe")
 
-[node name="Bounds" type="MeshInstance3D" parent="Camera3D"]
+[node name="Bounds" type="MeshInstance3D" parent="RenderCam"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -6.4, 0)
-layers = 2
-mesh = SubResource("ImmediateMesh_nj0bd")
+mesh = SubResource("ImmediateMesh_smxid")
 skeleton = NodePath("../../SmokeSim")
 surface_material_override/0 = ExtResource("5_7do5c")
 
@@ -51,8 +51,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.4, 0, 6.4)
 script = ExtResource("2_mx7lm")
 
 [node name="Bounds" type="MeshInstance3D" parent="SmokeSim"]
-layers = 2
-mesh = SubResource("ImmediateMesh_cij68")
+mesh = SubResource("ImmediateMesh_faut0")
 surface_material_override/0 = ExtResource("5_7do5c")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
@@ -65,3 +64,52 @@ transform = Transform3D(0.892639, 0, 0, 0, 0.892639, 0, 0, 0, 0.892639, 6.76146,
 enabled = false
 collide_with_areas = true
 collide_with_bodies = false
+
+[node name="AlbedoVP" type="SubViewport" parent="."]
+transparent_bg = true
+
+[node name="Camera3D" type="Camera3D" parent="AlbedoVP" node_paths=PackedStringArray("render_cam")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.4, 6.4, 13.8)
+cull_mask = 4
+projection = 1
+size = 12.8
+near = 0.5
+far = 14.3
+script = ExtResource("9_yroue")
+render_cam = NodePath("../../RenderCam")
+
+[node name="EmissionVP" type="SubViewport" parent="."]
+
+[node name="Camera3D" type="Camera3D" parent="EmissionVP" node_paths=PackedStringArray("render_cam")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.4, 6.4, 13.8)
+cull_mask = 8
+projection = 1
+size = 12.8
+near = 0.5
+far = 14.3
+script = ExtResource("9_yroue")
+render_cam = NodePath("../../RenderCam")
+
+[node name="NormalVP" type="SubViewport" parent="."]
+
+[node name="Camera3D" type="Camera3D" parent="NormalVP" node_paths=PackedStringArray("render_cam")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.4, 6.4, 13.8)
+cull_mask = 16
+projection = 1
+size = 12.8
+near = 0.5
+far = 14.3
+script = ExtResource("9_yroue")
+render_cam = NodePath("../../RenderCam")
+
+[node name="VelocityVP" type="SubViewport" parent="."]
+
+[node name="Camera3D" type="Camera3D" parent="VelocityVP" node_paths=PackedStringArray("render_cam")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.4, 6.4, 13.8)
+cull_mask = 32
+projection = 1
+size = 12.8
+near = 0.5
+far = 14.3
+script = ExtResource("9_yroue")
+render_cam = NodePath("../../RenderCam")

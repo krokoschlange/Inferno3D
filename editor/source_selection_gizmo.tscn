@@ -62,7 +62,6 @@ script = ExtResource("1_ehll8")
 shape = SubResource("SphereShape3D_2uija")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-layers = 2
 sorting_offset = 1e+07
 mesh = SubResource("QuadMesh_8muwd")
 surface_material_override/0 = SubResource("ShaderMaterial_khkke")

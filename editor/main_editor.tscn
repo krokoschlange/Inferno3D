@@ -1,4 +1,4 @@
-[gd_scene load_steps=45 format=3 uid="uid://b7srvsqse7vrs"]
+[gd_scene load_steps=46 format=3 uid="uid://b7srvsqse7vrs"]
 
 [ext_resource type="Script" path="res://editor/render_scene_vp.gd" id="1_2jb7h"]
 [ext_resource type="PackedScene" uid="uid://3u4cjoe6l84c" path="res://editor/vector3i_editor.tscn" id="1_cdisb"]
@@ -28,6 +28,10 @@
 [ext_resource type="Texture2D" uid="uid://oqhwjuvej85e" path="res://editor/graphics/stop.svg" id="18_2rivi"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2vlov"]
+content_margin_left = 8.0
+content_margin_top = 4.0
+content_margin_right = 8.0
+content_margin_bottom = 4.0
 bg_color = Color(0.6, 0.6, 0.6, 0)
 border_width_left = 1
 border_width_top = 1
@@ -38,7 +42,22 @@ corner_radius_top_right = 3
 corner_radius_bottom_right = 3
 corner_radius_bottom_left = 3
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_f7vqi"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ytthf"]
+content_margin_left = 8.0
+content_margin_top = 4.0
+content_margin_right = 8.0
+content_margin_bottom = 4.0
+bg_color = Color(0.28125, 0.28125, 0.28125, 1)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_jwsav"]
+content_margin_left = 8.0
+content_margin_top = 4.0
+content_margin_right = 8.0
+content_margin_bottom = 4.0
 bg_color = Color(0, 0, 0, 0.431373)
 corner_radius_top_left = 3
 corner_radius_top_right = 3
@@ -75,7 +94,8 @@ bg_color = Color(0.0705882, 0.0705882, 0.0705882, 1)
 
 [sub_resource type="Theme" id="Theme_lwlyf"]
 Button/styles/focus = SubResource("StyleBoxFlat_2vlov")
-Button/styles/normal = SubResource("StyleBoxFlat_f7vqi")
+Button/styles/hover = SubResource("StyleBoxFlat_ytthf")
+Button/styles/normal = SubResource("StyleBoxFlat_jwsav")
 LineEdit/styles/focus = SubResource("StyleBoxFlat_ig32a")
 TabContainer/styles/tab_focus = SubResource("StyleBoxFlat_230bn")
 TabContainer/styles/tab_hovered = SubResource("StyleBoxFlat_2q252")
@@ -187,19 +207,20 @@ current_tab = 0
 
 [node name="Simulation" type="VSplitContainer" parent="MarginContainer/TabContainer"]
 layout_mode = 2
+theme_override_constants/separation = 0
 metadata/_tab_index = 0
 
 [node name="Simulation" type="HSplitContainer" parent="MarginContainer/TabContainer/Simulation"]
 layout_mode = 2
 size_flags_vertical = 3
+theme_override_constants/separation = 0
 split_offset = 256
 
 [node name="TabContainer" type="TabContainer" parent="MarginContainer/TabContainer/Simulation/Simulation"]
 layout_mode = 2
-current_tab = 1
+current_tab = 0
 
 [node name="Sources" type="MarginContainer" parent="MarginContainer/TabContainer/Simulation/Simulation/TabContainer"]
-visible = false
 layout_mode = 2
 theme_override_constants/margin_left = 5
 theme_override_constants/margin_top = 5
@@ -241,6 +262,7 @@ layout_mode = 2
 text = "Add Source"
 
 [node name="Simulation" type="MarginContainer" parent="MarginContainer/TabContainer/Simulation/Simulation/TabContainer"]
+visible = false
 layout_mode = 2
 theme_override_constants/margin_left = 5
 theme_override_constants/margin_top = 5
@@ -486,6 +508,7 @@ active_texture = ExtResource("7_m5c0e")
 
 [node name="HSplitContainer" type="HSplitContainer" parent="MarginContainer/TabContainer/Simulation/Simulation"]
 layout_mode = 2
+theme_override_constants/separation = 0
 split_offset = -256
 
 [node name="Control" type="Control" parent="MarginContainer/TabContainer/Simulation/Simulation/HSplitContainer"]
@@ -507,7 +530,7 @@ script = ExtResource("1_2jb7h")
 
 [node name="SubViewport" type="SubViewport" parent="MarginContainer/TabContainer/Simulation/Simulation/HSplitContainer/Control/SubViewportContainer"]
 handle_input_locally = false
-size = Vector2i(606, 512)
+size = Vector2i(662, 568)
 render_target_update_mode = 4
 
 [node name="RenderScene" parent="MarginContainer/TabContainer/Simulation/Simulation/HSplitContainer/Control/SubViewportContainer/SubViewport" instance=ExtResource("1_nucwn")]
@@ -533,10 +556,9 @@ panel = SubResource("StyleBoxFlat_lajv1")
 
 [node name="TabContainer" type="TabContainer" parent="MarginContainer/TabContainer/Simulation/Simulation/HSplitContainer"]
 layout_mode = 2
-current_tab = 1
+current_tab = 0
 
 [node name="Source" type="MarginContainer" parent="MarginContainer/TabContainer/Simulation/Simulation/HSplitContainer/TabContainer"]
-visible = false
 layout_mode = 2
 theme_override_constants/margin_left = 5
 theme_override_constants/margin_top = 5
@@ -733,6 +755,7 @@ keyframe_texture = ExtResource("8_borjp")
 active_texture = ExtResource("7_m5c0e")
 
 [node name="Rendering" type="MarginContainer" parent="MarginContainer/TabContainer/Simulation/Simulation/HSplitContainer/TabContainer"]
+visible = false
 layout_mode = 2
 theme_override_constants/margin_left = 5
 theme_override_constants/margin_top = 5
@@ -944,8 +967,47 @@ inactive_texture = ExtResource("10_p5ijg")
 keyframe_texture = ExtResource("8_borjp")
 active_texture = ExtResource("7_m5c0e")
 
+[node name="HSeparator2" type="HSeparator" parent="MarginContainer/TabContainer/Simulation/Simulation/HSplitContainer/TabContainer/Rendering/VBoxContainer"]
+layout_mode = 2
+
+[node name="GridContainer4" type="GridContainer" parent="MarginContainer/TabContainer/Simulation/Simulation/HSplitContainer/TabContainer/Rendering/VBoxContainer"]
+layout_mode = 2
+columns = 2
+
+[node name="NormalStrengthLabel" type="Label" parent="MarginContainer/TabContainer/Simulation/Simulation/HSplitContainer/TabContainer/Rendering/VBoxContainer/GridContainer4"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Normal Strength"
+
+[node name="NormalStrengthEditor" parent="MarginContainer/TabContainer/Simulation/Simulation/HSplitContainer/TabContainer/Rendering/VBoxContainer/GridContainer4" instance=ExtResource("2_gnmcm")]
+layout_mode = 2
+max_value = 16.0
+drag_speed = 0.1
+
+[node name="NormalSmoothnessLabel" type="Label" parent="MarginContainer/TabContainer/Simulation/Simulation/HSplitContainer/TabContainer/Rendering/VBoxContainer/GridContainer4"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Normal Smoothness"
+
+[node name="NormalSmoothnessEditor" parent="MarginContainer/TabContainer/Simulation/Simulation/HSplitContainer/TabContainer/Rendering/VBoxContainer/GridContainer4" instance=ExtResource("2_gnmcm")]
+layout_mode = 2
+min_value = 0.1
+max_value = 10.0
+drag_speed = 0.1
+
+[node name="VelocityStrengthLabel" type="Label" parent="MarginContainer/TabContainer/Simulation/Simulation/HSplitContainer/TabContainer/Rendering/VBoxContainer/GridContainer4"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Velocity Strength"
+
+[node name="VelocityStrengthEditor" parent="MarginContainer/TabContainer/Simulation/Simulation/HSplitContainer/TabContainer/Rendering/VBoxContainer/GridContainer4" instance=ExtResource("2_gnmcm")]
+layout_mode = 2
+max_value = 10.0
+drag_speed = 0.1
+
 [node name="HSplitContainer" type="HSplitContainer" parent="MarginContainer/TabContainer/Simulation"]
 layout_mode = 2
+theme_override_constants/separation = 0
 split_offset = 256
 
 [node name="PanelContainer" type="PanelContainer" parent="MarginContainer/TabContainer/Simulation/HSplitContainer"]
@@ -1054,6 +1116,7 @@ grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
+theme_override_constants/separation = 0
 split_offset = 256
 
 [node name="Container" type="PanelContainer" parent="MarginContainer/TabContainer/Sprite Sheet/HSplitContainer"]
@@ -1108,8 +1171,30 @@ layout_mode = 2
 text = "Export
 "
 
-[node name="SpriteSheetGenerator" type="TextureRect" parent="MarginContainer/TabContainer/Sprite Sheet/HSplitContainer"]
+[node name="VSplitContainer" type="VBoxContainer" parent="MarginContainer/TabContainer/Sprite Sheet/HSplitContainer"]
 layout_mode = 2
+theme_override_constants/separation = 5
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/TabContainer/Sprite Sheet/HSplitContainer/VSplitContainer"]
+layout_mode = 2
+
+[node name="OptionButton" type="OptionButton" parent="MarginContainer/TabContainer/Sprite Sheet/HSplitContainer/VSplitContainer/HBoxContainer"]
+layout_mode = 2
+selected = 0
+item_count = 5
+popup/item_0/text = "Combined"
+popup/item_1/text = "Albedo"
+popup/item_1/id = 1
+popup/item_2/text = "Emission"
+popup/item_2/id = 2
+popup/item_3/text = "Normal"
+popup/item_3/id = 3
+popup/item_4/text = "Velocity"
+popup/item_4/id = 4
+
+[node name="SpriteSheetGenerator" type="TextureRect" parent="MarginContainer/TabContainer/Sprite Sheet/HSplitContainer/VSplitContainer"]
+layout_mode = 2
+size_flags_vertical = 3
 expand_mode = 1
 stretch_mode = 5
 script = ExtResource("15_jg07h")
@@ -1182,4 +1267,5 @@ custom_minimum_size = Vector2(200, 0)
 layout_mode = 2
 
 [connection signal="pressed" from="MarginContainer/TabContainer/Simulation/Simulation/TabContainer/Sources/Sources/AddSource" to="MarginContainer/TabContainer/Simulation/Simulation/TabContainer/Sources/Sources/SourcesList" method="_on_add_source_pressed"]
-[connection signal="pressed" from="MarginContainer/TabContainer/Sprite Sheet/HSplitContainer/Container/MarginContainer/VBoxContainer/RenderButton" to="MarginContainer/TabContainer/Sprite Sheet/HSplitContainer/SpriteSheetGenerator" method="generate"]
+[connection signal="pressed" from="MarginContainer/TabContainer/Sprite Sheet/HSplitContainer/Container/MarginContainer/VBoxContainer/RenderButton" to="MarginContainer/TabContainer/Sprite Sheet/HSplitContainer/VSplitContainer/SpriteSheetGenerator" method="generate"]
+[connection signal="pressed" from="MarginContainer/TabContainer/Sprite Sheet/HSplitContainer/Container/MarginContainer/VBoxContainer/ExportButton" to="MarginContainer/TabContainer/Sprite Sheet/HSplitContainer/VSplitContainer/SpriteSheetGenerator" method="open_export_window"]

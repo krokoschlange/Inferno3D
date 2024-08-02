@@ -132,4 +132,3 @@ func connect_vec3_property(property: String, x_editor: FloatEditor, y_editor: Fl
 			new_vec3.z = new_value
 			new_vals.append(new_vec3)
 		EditHistory.submit_object_actions(objs, property, old_vals, new_vals, update_ui))
-

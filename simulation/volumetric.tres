@@ -4,11 +4,11 @@
 [ext_resource type="Texture2D" uid="uid://c6jdg7t0i0n61" path="res://simulation/blackbody_gradient.tres" id="2_pe2vd"]
 [ext_resource type="Texture2D" uid="uid://5r83cu2e4dui" path="res://simulation/LDR_LLL1_0.png" id="2_yy8t1"]
 
-[sub_resource type="Texture3DRD" id="Texture3DRD_0bnek"]
+[sub_resource type="Texture3DRD" id="Texture3DRD_7bi2r"]
 
-[sub_resource type="Texture3DRD" id="Texture3DRD_xvn2e"]
+[sub_resource type="Texture3DRD" id="Texture3DRD_1vjs4"]
 
-[sub_resource type="Texture3DRD" id="Texture3DRD_hmofh"]
+[sub_resource type="Texture3DRD" id="Texture3DRD_0c5tn"]
 
 [resource]
 render_priority = 0
@@ -24,9 +24,9 @@ shader_parameter/light_color = Color(1, 1, 1, 1)
 shader_parameter/ambient_light = Color(0.148438, 0.148438, 0.148438, 1)
 shader_parameter/light_samples = 50
 shader_parameter/light_step_size = 0.221702
-shader_parameter/frame_i = 239.0
-shader_parameter/density = SubResource("Texture3DRD_0bnek")
-shader_parameter/fuel = SubResource("Texture3DRD_xvn2e")
-shader_parameter/temperature = SubResource("Texture3DRD_hmofh")
+shader_parameter/frame_i = 170.0
+shader_parameter/density = SubResource("Texture3DRD_7bi2r")
+shader_parameter/fuel = SubResource("Texture3DRD_1vjs4")
+shader_parameter/temperature = SubResource("Texture3DRD_0c5tn")
 shader_parameter/blackbody_lut = ExtResource("2_pe2vd")
 shader_parameter/blue_noise = ExtResource("2_yy8t1")

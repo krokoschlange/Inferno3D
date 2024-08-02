@@ -9,6 +9,7 @@ script = ExtResource("1_0ylto")
 
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 10.98)
+cull_mask = 3
 current = true
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
