@@ -10,6 +10,9 @@ var property: String
 var update_func: Callable
 var animation_name: String
 
+var animation: PropertyAnimation
+var update_signal: Signal
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	AnimationHandler.frame_changed.connect(update)
@@ -21,15 +24,20 @@ func connect_property(obj: Object, prop: String, ufunc: Callable, anim_name: Str
 	property = prop
 	update_func = ufunc
 	animation_name = anim_name
+	update()
 
 func update() -> void:
-	var anim: PropertyAnimation = AnimationHandler.get_animation(object, property)
-	if not anim:
+	if animation and update_signal and update_signal.is_connected(update_func):
+		update_signal.disconnect(update_func)
+	animation = AnimationHandler.get_animation(object, property)
+	if not animation:
 		set_pressed_no_signal(false)
 		texture_normal = inactive_texture
 		queue_redraw()
 	else:
-		var value: Variant = anim.get_keyframe(AnimationHandler.current_frame)
+		var value: Variant = animation.get_keyframe(AnimationHandler.current_frame)
+		update_signal = animation.value_changed
+		update_signal.connect(update_func)
 		if value != null:
 			set_pressed_no_signal(true)
 			texture_pressed = keyframe_texture
@@ -44,12 +52,14 @@ func on_toogled(on: bool) -> void:
 	if not object or not property:
 		return
 	if on:
-		AnimationHandler.add_keyframe(object, property, update_func, animation_name)
+		AnimationHandler.add_keyframe(object, property, animation_name)
 		var frame: int = AnimationHandler.current_frame
 		var value: Variant = object.get(property)
 		EditHistory.submit_custom_actions([func () -> void:
-			AnimationHandler.add_keyframe_at(object, property, frame, value, update_func, animation_name)],
-			[func () -> void: AnimationHandler.remove_keyframe_at(object, property, frame)],
+			AnimationHandler.add_keyframe_at(object, property, frame, value, animation_name)],
+			[func () -> void:
+				AnimationHandler.remove_keyframe_at(object, property, frame)
+				object.set(property, value)],
 			func () -> void:
 				update()
 				if update_func:
@@ -63,7 +73,7 @@ func on_toogled(on: bool) -> void:
 		EditHistory.submit_custom_actions([func () -> void:
 				AnimationHandler.remove_keyframe_at(object, property, frame)],
 			[func () -> void:
-				AnimationHandler.add_keyframe_at(object, property, frame, value, update_func, animation_name)],
+				AnimationHandler.add_keyframe_at(object, property, frame, value, animation_name)],
 			func () -> void:
 				update()
 				if update_func:

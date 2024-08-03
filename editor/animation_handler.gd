@@ -30,14 +30,14 @@ func set_frame(frame: int) -> void:
 	for animation: PropertyAnimation in animations:
 		animation.apply(frame)
 
-func add_keyframe(object: Object, property: String, update_func: Callable = func () -> void: pass, anim_name: String = "") -> void:
-	var anim: PropertyAnimation = get_animation(object, property, true, update_func, anim_name)
+func add_keyframe(object: Object, property: String, anim_name: String = "") -> void:
+	var anim: PropertyAnimation = get_animation(object, property, true, anim_name)
 	anim.add_keyframe(current_frame, object.get(property))
 	set_frame(current_frame)
 	animations_changed.emit()
 
-func add_keyframe_at(object: Object, property: String, frame: int, value: Variant, update_func: Callable = func () -> void: pass, anim_name: String = "") -> void:
-	var anim: PropertyAnimation = get_animation(object, property, true, update_func, anim_name)
+func add_keyframe_at(object: Object, property: String, frame: int, value: Variant, anim_name: String = "") -> void:
+	var anim: PropertyAnimation = get_animation(object, property, true, anim_name)
 	anim.add_keyframe(frame, value)
 	set_frame(current_frame)
 	animations_changed.emit()
@@ -60,7 +60,7 @@ func remove_keyframe_at(object: Object, property: String, frame: int) -> void:
 		set_frame(current_frame)
 		animations_changed.emit()
 
-func get_animation(object: Object, property: String, create: bool = false, update_func: Callable = func () -> void: pass, anim_name: String = "") -> PropertyAnimation:
+func get_animation(object: Object, property: String, create: bool = false, anim_name: String = "") -> PropertyAnimation:
 	for anim: PropertyAnimation in animations:
 		if anim.object == object and anim.property == property:
 			return anim
@@ -69,7 +69,6 @@ func get_animation(object: Object, property: String, create: bool = false, updat
 	var new_anim := PropertyAnimation.new()
 	new_anim.object = object
 	new_anim.property = property
-	new_anim.update = update_func
 	new_anim.name = anim_name
 	animations.append(new_anim)
 	animations_changed.emit()
@@ -101,3 +100,20 @@ func update_animation_names() -> void:
 		if anim.object is SmokeSource:
 			anim.name = get_animation_name(anim.object, anim.property)
 	animations_changed.emit()
+
+
+func clear() -> void:
+	warmup = 10
+	end = 100
+	animations.clear()
+
+
+func update_keyframe(object: Object, property: String) -> void:
+	update_keyframe_at(object, property, current_frame)
+
+func update_keyframe_at(object: Object, property: String, frame: int) -> void:
+	var anim: PropertyAnimation = get_animation(object, property)
+	if anim:
+		var value: Variant = anim.get_keyframe(frame)
+		if value != null:
+			anim.add_keyframe(frame, object.get(property))

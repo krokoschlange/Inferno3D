@@ -1,6 +1,8 @@
 class_name PropertyAnimation
 extends RefCounted
 
+signal value_changed()
+
 enum InterpolationMode {
 	LINEAR,
 	CONSTANT,
@@ -13,12 +15,9 @@ var object: Object
 var property: String
 var name: String
 
-var update: Callable
-
 func apply(frame: int) -> void:
 	object.set(property, get_value(frame))
-	if update:
-		update.call()
+	value_changed.emit()
 
 func get_value(frame: int) -> Variant:
 	if keyframes.is_empty():

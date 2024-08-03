@@ -57,16 +57,30 @@ func save(filename: String, use_last_used_path: bool = false) -> void:
 		file.set_value(section, "velocity", source.velocity)
 		source_idx += 1
 	
+	file.set_value("AnimationGlobal", "warmup", AnimationHandler.warmup)
+	file.set_value("AnimationGlobal", "length", AnimationHandler.end)
+	file.set_value("AnimationGlobal", "current", AnimationHandler.current_frame)
+	
 	var anim_idx: int = 0
 	for anim: PropertyAnimation in AnimationHandler.animations:
 		var section: String = "Animation" + str(anim_idx)
-		var obj: String = ""
 		if anim.object is SmokeSource:
-			obj = anim.object.name
-		file.set_value(section, "object", obj)
+			file.set_value(section, "object_type", "source")
+			file.set_value(section, "object", anim.object.name)
+		elif anim.object == smoke_sim:
+			file.set_value(section, "object_type", "simulation")
+		elif anim.object == render_scene_vp:
+			file.set_value(section, "object_type", "viewport")
 		file.set_value(section, "property", anim.property)
 		file.set_value(section, "name", anim.name)
-		file.set_value(section, "name", anim.name)
+		file.set_value(section, "mode", anim.mode)
+		var frames := PackedFloat32Array()
+		var values := Array()
+		for kf: PropertyAnimation.Keyframe in anim.keyframes:
+			frames.append(kf.frame)
+			values.append(kf.value)
+		file.set_value(section, "frames", frames)
+		file.set_value(section, "values", values)
 		anim_idx += 1
 	
 	var path: String = filename
@@ -133,6 +147,24 @@ func read(filename: String) -> void:
 		
 		source_idx += 1
 		section = "Source" + str(source_idx)
+	
+	AnimationHandler.clear()
+	AnimationHandler.warmup = file.get_value("AnimationGlobal", "warmup", 10)
+	AnimationHandler.end = file.get_value("AnimationGlobal", "length", 100)
+	AnimationHandler.current_frame = file.get_value("AnimationGlobal", "current", 0)
+	
+	var anim_idx: int = 0
+	section = "Animation" + str(anim_idx)
+	while file.has_section(section):
+		var obj: Variant
+		var obj_type: String = file.get_value(section, "object_type", "")
+		if obj_type == "source":
+			var obj_name: String = file.get_value(section, "object", "")
+			if not smoke_sim.has_node(obj_name):
+				continue
+			obj = smoke_sim.get_node(obj_name)
+		#var 
+		#AnimationHandler.add_keyframe_at(obj, , , , )
 	
 	last_file_path = filename
 	

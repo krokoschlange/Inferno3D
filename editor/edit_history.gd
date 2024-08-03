@@ -20,12 +20,15 @@ func clear() -> void:
 func submit_object_actions(objects: Array[Object], property: String, old_values: Array, new_values: Array, update_ui: Callable, ) -> void:
 	var redo_funcs: Array[Callable] = []
 	var undo_funcs: Array[Callable] = []
+	var frame: int = AnimationHandler.current_frame
 	for i: int in objects.size():
 		var obj: Object = objects[i]
 		redo_funcs.append(func () -> void:
-			obj.set(property, new_values[i]))
+			obj.set(property, new_values[i])
+			AnimationHandler.update_keyframe_at(obj, property, frame))
 		undo_funcs.append(func () -> void:
-			obj.set(property, old_values[i]))
+			obj.set(property, old_values[i])
+			AnimationHandler.update_keyframe_at(obj, property, frame))
 	submit_custom_actions(redo_funcs, undo_funcs, update_ui)
 
 func submit_custom_actions(redos: Array[Callable], undos: Array[Callable], update_ui: Callable, free_on_delete: Array[Object] = [], free_on_outdated: Array[Object] = []) -> void:

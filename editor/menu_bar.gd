@@ -54,6 +54,7 @@ func file_pressed(id: int) -> void:
 			pass
 
 func new_file() -> void:
+	AnimationHandler.clear()
 	EditHistory.clear()
 	get_tree().reload_current_scene()
 

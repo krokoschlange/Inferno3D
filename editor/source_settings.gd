@@ -60,6 +60,7 @@ func connect_float_property(property: String, editor: FloatEditor) -> void:
 	editor.value_changed.connect(func (new_value: float) -> void:
 		for src: SmokeSource in selection:
 			src.set(property, new_value)
+			AnimationHandler.update_keyframe(src, property)
 		)
 	editor.action_complete.connect(func (new_value: float, old_value: float) -> void:
 		var objs: Array[Object] = []
@@ -69,7 +70,8 @@ func connect_float_property(property: String, editor: FloatEditor) -> void:
 			objs.append(src)
 			old_vals.append(old_value)
 			new_vals.append(new_value)
-		EditHistory.submit_object_actions(objs, property, old_vals, new_vals, update_ui))
+		EditHistory.submit_object_actions(objs, property, old_vals, new_vals, update_ui)
+		)
 
 func connect_vec3_property(property: String, x_editor: FloatEditor, y_editor: FloatEditor, z_editor: FloatEditor) -> void:
 	x_editor.value_changed.connect(func (new_value: float) -> void:
@@ -77,18 +79,21 @@ func connect_vec3_property(property: String, x_editor: FloatEditor, y_editor: Fl
 			var value := src.get(property) as Vector3
 			value.x = new_value
 			src.set(property, value)
+			AnimationHandler.update_keyframe(src, property)
 		)
 	y_editor.value_changed.connect(func (new_value: float) -> void:
 		for src: SmokeSource in selection:
 			var value := src.get(property) as Vector3
 			value.y = new_value
 			src.set(property, value)
+			AnimationHandler.update_keyframe(src, property)
 		)
 	z_editor.value_changed.connect(func (new_value: float) -> void:
 		for src: SmokeSource in selection:
 			var value := src.get(property) as Vector3
 			value.z = new_value
 			src.set(property, value)
+			AnimationHandler.update_keyframe(src, property)
 		)
 	x_editor.action_complete.connect(func (new_value: float, old_value: float) -> void:
 		var objs: Array[Object] = []

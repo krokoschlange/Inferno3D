@@ -557,9 +557,10 @@ panel = SubResource("StyleBoxFlat_lajv1")
 
 [node name="TabContainer" type="TabContainer" parent="MarginContainer/TabContainer/Simulation/Simulation/HSplitContainer"]
 layout_mode = 2
-current_tab = 0
+current_tab = 1
 
 [node name="Source" type="MarginContainer" parent="MarginContainer/TabContainer/Simulation/Simulation/HSplitContainer/TabContainer"]
+visible = false
 layout_mode = 2
 theme_override_constants/margin_left = 5
 theme_override_constants/margin_top = 5
@@ -756,7 +757,6 @@ keyframe_texture = ExtResource("8_borjp")
 active_texture = ExtResource("7_m5c0e")
 
 [node name="Rendering" type="MarginContainer" parent="MarginContainer/TabContainer/Simulation/Simulation/HSplitContainer/TabContainer"]
-visible = false
 layout_mode = 2
 theme_override_constants/margin_left = 5
 theme_override_constants/margin_top = 5

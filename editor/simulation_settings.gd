@@ -43,7 +43,9 @@ func _ready() -> void:
 		EditHistory.submit_object_actions([smoke_sim], "resolution", [old_vec3], [new_vec3], update_ui))
 	
 	connect_float_property("grid_size", grid_size_editor)
-	jacobi_editor.value_changed.connect(func (new_value: int) -> void: smoke_sim.jacobi_iterations = new_value)
+	jacobi_editor.value_changed.connect(func (new_value: int) -> void:
+		smoke_sim.jacobi_iterations = new_value
+		AnimationHandler.update_keyframe(smoke_sim, "jacobi_iterations"))
 	jacobi_editor.action_complete.connect(func (new_value: int, old_value: int) -> void:
 		EditHistory.submit_object_actions([smoke_sim], "jacobi_iterations", [old_value], [new_value], update_ui))
 	connect_float_property("dtime", d_time_editor)
@@ -107,6 +109,7 @@ func update_ui() -> void:
 
 func connect_float_property(property: String, editor: FloatEditor) -> void:
 	editor.value_changed.connect(func (new_value: float) -> void:
-		smoke_sim.set(property, new_value))
+		smoke_sim.set(property, new_value)
+		AnimationHandler.update_keyframe(smoke_sim, property))
 	editor.action_complete.connect(func (new_value: float, old_value: float) -> void:
 		EditHistory.submit_object_actions([smoke_sim], property, [old_value], [new_value], update_ui))

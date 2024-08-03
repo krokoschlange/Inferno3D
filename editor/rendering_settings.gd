@@ -23,7 +23,9 @@ extends Control
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	resolution_editor.value_changed.connect(func (new_value: Vector2i) -> void: render_scene_vp.render_resolution = new_value)
+	resolution_editor.value_changed.connect(func (new_value: Vector2i) -> void:
+		render_scene_vp.render_resolution = new_value
+		AnimationHandler.update_keyframe(render_scene_vp, "render_resolution"))
 	resolution_editor.x_editor.action_complete.connect(func (new_value: int, old_value: int) -> void:
 		var old_vec2: Vector2i = render_scene_vp.render_resolution
 		old_vec2.x = old_value
@@ -37,7 +39,9 @@ func _ready() -> void:
 		new_vec2.y = new_value
 		EditHistory.submit_object_actions([render_scene_vp], "render_resolution", [old_vec2], [new_vec2], update_ui))
 	
-	offset_editor.value_changed.connect(func (new_value: Vector2) -> void: render_scene_vp.render_offset = new_value)
+	offset_editor.value_changed.connect(func (new_value: Vector2) -> void:
+		render_scene_vp.render_offset = new_value
+		AnimationHandler.update_keyframe(render_scene_vp, "render_offset"))
 	offset_editor.x_editor.action_complete.connect(func (new_value: float, old_value: float) -> void:
 		var old_vec2: Vector2 = render_scene_vp.render_offset
 		old_vec2.x = old_value
@@ -51,23 +55,33 @@ func _ready() -> void:
 		new_vec2.y = new_value
 		EditHistory.submit_object_actions([render_scene_vp], "render_offset", [old_vec2], [new_vec2], update_ui))
 	
-	size_factor_editor.value_changed.connect(func (new_value: float) -> void: render_scene_vp.render_scale = new_value)
+	size_factor_editor.value_changed.connect(func (new_value: float) -> void:
+		render_scene_vp.render_scale = new_value
+		AnimationHandler.update_keyframe(render_scene_vp, "render_scale"))
 	size_factor_editor.action_complete.connect(func (new_value: float, old_value: float) -> void:
 		EditHistory.submit_object_actions([render_scene_vp], "render_scale", [old_value], [new_value], update_ui))
 	
-	smoke_color_editor.color_changed.connect(func (new_value: Color) -> void: smoke_sim.smoke_color = new_value)
+	smoke_color_editor.color_changed.connect(func (new_value: Color) -> void:
+		smoke_sim.smoke_color = new_value
+		AnimationHandler.update_keyframe(smoke_sim, "smoke_color"))
 	smoke_color_editor.action_complete.connect(func (new_color: Color, old_color: Color) -> void:
 		EditHistory.submit_object_actions([smoke_sim], "smoke_color", [old_color], [new_color], update_ui))
 	
-	scatter_factor_editor.value_changed.connect(func (new_value: float) -> void: smoke_sim.scatter_factor = new_value)
+	scatter_factor_editor.value_changed.connect(func (new_value: float) -> void:
+		smoke_sim.scatter_factor = new_value
+		AnimationHandler.update_keyframe(smoke_sim, "scatter_factor"))
 	scatter_factor_editor.action_complete.connect(func (new_value: float, old_value: float) -> void:
 		EditHistory.submit_object_actions([smoke_sim], "scatter_factor", [old_value], [new_value], update_ui))
 	
-	emission_editor.value_changed.connect(func (new_value: float) -> void: smoke_sim.emission_intensity = new_value)
+	emission_editor.value_changed.connect(func (new_value: float) -> void:
+		smoke_sim.emission_intensity = new_value
+		AnimationHandler.update_keyframe(smoke_sim, "emission_intensity"))
 	emission_editor.action_complete.connect(func (new_value: float, old_value: float) -> void:
 		EditHistory.submit_object_actions([smoke_sim], "emission_intensity", [old_value], [new_value], update_ui))
 	
-	light_dir_editor.value_changed.connect(func (new_value: Vector3) -> void: smoke_sim.light_direction = new_value)
+	light_dir_editor.value_changed.connect(func (new_value: Vector3) -> void:
+		smoke_sim.light_direction = new_value
+		AnimationHandler.update_keyframe(smoke_sim, "light_dir_editor"))
 	light_dir_editor.x_editor.action_complete.connect(func (new_value: float, old_value: float) -> void:
 		var old_vec3: Vector3 = smoke_sim.light_direction
 		old_vec3.x = old_value
@@ -87,11 +101,15 @@ func _ready() -> void:
 		new_vec3.z = new_value
 		EditHistory.submit_object_actions([smoke_sim], "light_direction", [old_vec3], [new_vec3], update_ui))
 	
-	light_color_editor.color_changed.connect(func (new_value: Color) -> void: smoke_sim.light_color = new_value)
+	light_color_editor.color_changed.connect(func (new_value: Color) -> void:
+		smoke_sim.light_color = new_value
+		AnimationHandler.update_keyframe(smoke_sim, "light_color"))
 	light_color_editor.action_complete.connect(func (new_color: Color, old_color: Color) -> void:
 		EditHistory.submit_object_actions([smoke_sim], "light_color", [old_color], [new_color], update_ui))
 		
-	ambient_color_editor.color_changed.connect(func (new_value: Color) -> void: smoke_sim.ambient_light = new_value)
+	ambient_color_editor.color_changed.connect(func (new_value: Color) -> void: 
+		smoke_sim.ambient_light = new_value
+		AnimationHandler.update_keyframe(smoke_sim, "ambient_light"))
 	ambient_color_editor.action_complete.connect(func (new_color: Color, old_color: Color) -> void:
 		EditHistory.submit_object_actions([smoke_sim], "ambient_light", [old_color], [new_color], update_ui))
 	
