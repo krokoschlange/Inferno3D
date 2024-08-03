@@ -88,5 +88,5 @@ void fragment() {
 	}
 	vel /= size;
 	vel *= velocity_factor;
-	ALBEDO = vec3(vel.xy * 0.5 + 0.5, 0);
+	ALBEDO = pow(vec3(vel.xy * 0.5 + 0.5, 0), vec3(2.2));
 }

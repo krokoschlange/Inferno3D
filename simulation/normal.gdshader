@@ -95,5 +95,5 @@ void fragment() {
 	}
 	norm.xy *= normal_strength;
 	norm = normalize(norm);
-	ALBEDO = vec3(norm * 0.5 + 0.5);
+	ALBEDO = pow(vec3(norm * 0.5 + 0.5), vec3(2.2));
 }
