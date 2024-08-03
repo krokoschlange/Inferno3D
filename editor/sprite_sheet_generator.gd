@@ -170,4 +170,4 @@ func export(path: String) -> void:
 	albedo.save_png(path + "_albedo.png")
 	emission.save_png(path + "_emission.png")
 	normal.save_png(path + "_normal.png")
-	velocity.save_png(path + "_velocity")
+	velocity.save_png(path + "_velocity.png")
