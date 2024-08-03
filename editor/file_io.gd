@@ -74,8 +74,8 @@ func save(filename: String, use_last_used_path: bool = false) -> void:
 		file.set_value(section, "property", anim.property)
 		file.set_value(section, "name", anim.name)
 		file.set_value(section, "mode", anim.mode)
-		var frames := PackedFloat32Array()
-		var values := Array()
+		var frames := PackedInt32Array()
+		var values: Array[Variant] = []
 		for kf: PropertyAnimation.Keyframe in anim.keyframes:
 			frames.append(kf.frame)
 			values.append(kf.value)
@@ -157,14 +157,33 @@ func read(filename: String) -> void:
 	section = "Animation" + str(anim_idx)
 	while file.has_section(section):
 		var obj: Variant
-		var obj_type: String = file.get_value(section, "object_type", "")
+		var obj_type := file.get_value(section, "object_type", "") as String
 		if obj_type == "source":
-			var obj_name: String = file.get_value(section, "object", "")
+			var obj_name := file.get_value(section, "object", "") as String
 			if not smoke_sim.has_node(obj_name):
 				continue
 			obj = smoke_sim.get_node(obj_name)
-		#var 
-		#AnimationHandler.add_keyframe_at(obj, , , , )
+		elif obj_type == "simulation":
+			obj = smoke_sim
+		elif obj_type == "viewport":
+			obj = render_scene_vp
+		var property := file.get_value(section, "property", "") as String
+		var anim_name := file.get_value(section, "name", "Unknown") as String
+		var mode := file.get_value(section, "mode", PropertyAnimation.InterpolationMode.LINEAR) as PropertyAnimation.InterpolationMode
+		
+		var frames := file.get_value(section, "frames", PackedInt32Array()) as PackedInt32Array
+		var values := file.get_value(section, "values", []) as Array[Variant]
+		
+		if not obj or property == "":
+			continue
+		
+		for idx: int in frames.size():
+			if idx >= values.size():
+				break
+			AnimationHandler.add_keyframe_at(obj, property, frames[idx], values[idx], anim_name)
+		
+		anim_idx += 1
+		section = "Animation" + str(anim_idx)
 	
 	last_file_path = filename
 	

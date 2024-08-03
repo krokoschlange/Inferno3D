@@ -33,7 +33,7 @@ func _process(delta: float) -> void:
 	pass
 
 func update_ui() -> void:
-	if size_editor and source:
+	if source:
 		show()
 		position_editor.set_value_no_signal(source.position)
 		size_editor.set_value_no_signal(source.radius)

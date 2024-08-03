@@ -29,6 +29,8 @@ func connect_property(obj: Object, prop: String, ufunc: Callable, anim_name: Str
 func update() -> void:
 	if animation and update_signal and update_signal.is_connected(update_func):
 		update_signal.disconnect(update_func)
+	if not object or not property:
+		return
 	animation = AnimationHandler.get_animation(object, property)
 	if not animation:
 		set_pressed_no_signal(false)

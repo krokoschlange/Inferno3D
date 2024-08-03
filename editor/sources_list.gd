@@ -60,6 +60,7 @@ func update_ui() -> void:
 	sources.clear()
 	clear()
 	selection.clear()
+	source_settings.source = null
 	var root: TreeItem = create_item()
 	for child in smoke_sim.get_children():
 		if child is SmokeSource:
