@@ -13,10 +13,15 @@ signal action_complete(new_value: float, old_value: float)
 	set(val):
 		max_value = val
 		value = clampf(value, min_value, max_value)
+@export var accuracy: float = 10000.0:
+	set(val):
+		accuracy = val
+		var rounded: float = roundf(value * accuracy) / accuracy
+		text = str(rounded)
 @export var value: float = 0.0:
 	set(val):
 		value = clampf(val, min_value, max_value)
-		var rounded: float = roundf(value * 10000.0) / 10000.0
+		var rounded: float = roundf(value * accuracy) / accuracy
 		text = str(rounded)
 		if emit:
 			value_changed.emit(value)
