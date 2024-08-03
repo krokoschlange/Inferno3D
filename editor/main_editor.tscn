@@ -271,7 +271,6 @@ theme_override_constants/margin_bottom = 5
 metadata/_tab_index = 1
 
 [node name="Simulation" type="VBoxContainer" parent="MarginContainer/TabContainer/Simulation/Simulation/TabContainer/Simulation"]
-visible = false
 layout_mode = 2
 script = ExtResource("1_ewj4c")
 
