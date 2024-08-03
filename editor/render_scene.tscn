@@ -10,11 +10,11 @@
 [ext_resource type="PackedScene" uid="uid://drw2gpqj27evj" path="res://editor/translation_gizmo.tscn" id="8_l80bu"]
 [ext_resource type="Script" path="res://editor/render_camera_copy.gd" id="9_yroue"]
 
-[sub_resource type="ImmediateMesh" id="ImmediateMesh_smxid"]
+[sub_resource type="ImmediateMesh" id="ImmediateMesh_pbgbl"]
 script = ExtResource("6_01nbv")
 size = Vector3(1, 1, 1)
 
-[sub_resource type="ImmediateMesh" id="ImmediateMesh_faut0"]
+[sub_resource type="ImmediateMesh" id="ImmediateMesh_r301x"]
 script = ExtResource("6_01nbv")
 size = Vector3(12.8, 12.8, 12.8)
 
@@ -38,7 +38,7 @@ script = ExtResource("1_2c2xe")
 
 [node name="Bounds" type="MeshInstance3D" parent="RenderCam"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -6.4, 0)
-mesh = SubResource("ImmediateMesh_smxid")
+mesh = SubResource("ImmediateMesh_pbgbl")
 skeleton = NodePath("../../SmokeSim")
 surface_material_override/0 = ExtResource("5_7do5c")
 
@@ -51,7 +51,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.4, 0, 6.4)
 script = ExtResource("2_mx7lm")
 
 [node name="Bounds" type="MeshInstance3D" parent="SmokeSim"]
-mesh = SubResource("ImmediateMesh_faut0")
+mesh = SubResource("ImmediateMesh_r301x")
 surface_material_override/0 = ExtResource("5_7do5c")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]

@@ -62,9 +62,9 @@ void fragment() {
 	float transparency = 1.0;
 	vec3 emit = vec3(0);
 	vec3 norm = vec3(0, 0, 1);
-	
+
 	vec3 diff_size = normal_smoothness / vec3(textureSize(density, 0));
-	
+
 	for (int i = 0; i < samples; i++) {
 		float dens = textureLod(density, pos_to_uvw(pos), 0).r;
 

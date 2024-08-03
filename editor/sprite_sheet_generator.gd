@@ -25,6 +25,9 @@ var processing: bool
 var skip_frame: int
 var grid_pos: Vector2i
 
+var was_preview: bool
+var was_at_frame: int
+
 @onready var grid_editor: Vector2iEditor = $"../../Container/MarginContainer/VBoxContainer/GridEditor"
 @onready var skip_editor: IntEditor = $"../../Container/MarginContainer/VBoxContainer/GridContainer/SkipEditor"
 @onready var texture_selector: OptionButton = $"../HBoxContainer/OptionButton"
@@ -65,6 +68,8 @@ func _ready() -> void:
 
 func _process(delta: float) -> void:
 	if processing:
+		if AnimationHandler.current_frame < 0:
+			return
 		if skip_frame == 0:
 			copy_image()
 		skip_frame += 1
@@ -72,13 +77,15 @@ func _process(delta: float) -> void:
 			skip_frame = 0
 
 func generate() -> void:
+	was_preview = viewport.preview
+	was_at_frame = AnimationHandler.current_frame
 	viewport.set_preview(true)
 	viewport.set_pause(false)
 	resolution = viewport.render_resolution
 	skip_frames = skip_editor.value
 	grid = grid_editor.value
 	var total_res: Vector2i = resolution * grid
-	image = Image.create(total_res.x, total_res.y, false, Image.FORMAT_RGB8)
+	image = Image.create(total_res.x, total_res.y, false, Image.FORMAT_RGBA8)
 	albedo = Image.create(total_res.x, total_res.y, false, Image.FORMAT_RGBA8)
 	emission = Image.create(total_res.x, total_res.y, false, Image.FORMAT_RGB8)
 	normal = Image.create(total_res.x, total_res.y, false, Image.FORMAT_RGB8)
@@ -91,6 +98,8 @@ func generate() -> void:
 	
 	skip_frame = 0
 	grid_pos = Vector2i(0, 0)
+	AnimationHandler.playing = true
+	AnimationHandler.current_frame = -AnimationHandler.warmup
 	processing = true
 	smoke_sim.clear_simulation()
 	smoke_sim.run()
@@ -134,6 +143,9 @@ func copy_image() -> void:
 		grid_pos.y += 1
 	if grid_pos.y >= grid.y:
 		processing = false
+		AnimationHandler.playing = false
+		AnimationHandler.current_frame = was_at_frame
+		viewport.set_preview(was_preview)
 		progress.end()
 
 

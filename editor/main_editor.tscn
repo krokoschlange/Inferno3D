@@ -529,6 +529,7 @@ stretch = true
 script = ExtResource("1_2jb7h")
 
 [node name="SubViewport" type="SubViewport" parent="MarginContainer/TabContainer/Simulation/Simulation/HSplitContainer/Control/SubViewportContainer"]
+transparent_bg = true
 handle_input_locally = false
 size = Vector2i(662, 568)
 render_target_update_mode = 4

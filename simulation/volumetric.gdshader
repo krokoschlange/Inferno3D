@@ -110,12 +110,9 @@ void fragment() {
 		}
 	}
 	float alpha = 1.0 - transparency;
-	if (length(emit) > 0.01) {
-		alpha = max(alpha, 0.01);
-	}
 	ALBEDO = smoke_color * diffuse * light_color + ambient_light;
-	EMISSION = emit / alpha;
-	ALPHA = alpha;
+	EMISSION = emit;
+	ALPHA = max(alpha, min(length(emit), 1.0));
 }
 
 void light() {

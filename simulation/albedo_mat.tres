@@ -3,7 +3,7 @@
 [ext_resource type="Shader" path="res://simulation/albedo.gdshader" id="1_0toap"]
 [ext_resource type="Texture2D" uid="uid://5r83cu2e4dui" path="res://simulation/LDR_LLL1_0.png" id="3_2gcc7"]
 
-[sub_resource type="Texture3DRD" id="Texture3DRD_7bi2r"]
+[sub_resource type="Texture3DRD" id="Texture3DRD_q3y5k"]
 
 [resource]
 render_priority = 0
@@ -18,6 +18,6 @@ shader_parameter/light_color = Color(1, 1, 1, 1)
 shader_parameter/ambient_light = Color(0.148438, 0.148438, 0.148438, 1)
 shader_parameter/light_samples = 50
 shader_parameter/light_step_size = 0.221702
-shader_parameter/frame_i = 550.0
-shader_parameter/density = SubResource("Texture3DRD_7bi2r")
+shader_parameter/frame_i = 71.0
+shader_parameter/density = SubResource("Texture3DRD_q3y5k")
 shader_parameter/blue_noise = ExtResource("3_2gcc7")

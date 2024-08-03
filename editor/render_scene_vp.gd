@@ -5,6 +5,9 @@ extends SubViewportContainer
 @onready var sub_viewport: SubViewport = $SubViewport
 @onready var viewport_options: ViewportOptions = $"../MarginContainer2/ViewportOptions"
 
+var preview: bool = false
+var render_mode: int = 0
+
 var render_resolution := Vector2i(128, 128):
 	set(value):
 		render_resolution = value
@@ -60,7 +63,9 @@ func set_preview(on: bool) -> void:
 	else:
 		stretch = true
 	#preview_check_box.set_pressed_no_signal(on)
+	set_render_mode(render_mode)
 	viewport_options.set_preview(on)
+	preview = on
 
 func set_pause(on: bool) -> void:
 	render_scene.pause_simulation(on)
@@ -71,3 +76,4 @@ func set_render_mode(mode: int) -> void:
 	var mask: int = base_mask | (1 << mode + 1)
 	sub_viewport.get_camera_3d().cull_mask = mask
 	viewport_options.set_render_mode(mode)
+	render_mode = mode

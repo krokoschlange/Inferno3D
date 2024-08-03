@@ -3,11 +3,11 @@
 [ext_resource type="Shader" path="res://simulation/velocity.gdshader" id="1_n1i8i"]
 [ext_resource type="Texture2D" uid="uid://5r83cu2e4dui" path="res://simulation/LDR_LLL1_0.png" id="3_fapnv"]
 
-[sub_resource type="Texture3DRD" id="Texture3DRD_rulf3"]
+[sub_resource type="Texture3DRD" id="Texture3DRD_q3y5k"]
 
-[sub_resource type="Texture3DRD" id="Texture3DRD_qmjal"]
+[sub_resource type="Texture3DRD" id="Texture3DRD_grq88"]
 
-[sub_resource type="Texture3DRD" id="Texture3DRD_7unal"]
+[sub_resource type="Texture3DRD" id="Texture3DRD_rpu7h"]
 
 [resource]
 render_priority = 0
@@ -17,8 +17,8 @@ shader_parameter/size = Vector3(12.8, 12.8, 12.8)
 shader_parameter/samples = 500
 shader_parameter/step_size = 0.0443405
 shader_parameter/scatter_factor = 0.5
-shader_parameter/frame_i = 490.0
-shader_parameter/density = SubResource("Texture3DRD_rulf3")
-shader_parameter/fuel = SubResource("Texture3DRD_qmjal")
-shader_parameter/velocity = SubResource("Texture3DRD_7unal")
+shader_parameter/frame_i = 71.0
+shader_parameter/density = SubResource("Texture3DRD_q3y5k")
+shader_parameter/fuel = SubResource("Texture3DRD_grq88")
+shader_parameter/velocity = SubResource("Texture3DRD_rpu7h")
 shader_parameter/blue_noise = ExtResource("3_fapnv")
