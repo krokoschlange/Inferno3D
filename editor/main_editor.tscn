@@ -1,4 +1,4 @@
-[gd_scene load_steps=46 format=3 uid="uid://b7srvsqse7vrs"]
+[gd_scene load_steps=47 format=3 uid="uid://b7srvsqse7vrs"]
 
 [ext_resource type="Script" path="res://editor/render_scene_vp.gd" id="1_2jb7h"]
 [ext_resource type="PackedScene" uid="uid://3u4cjoe6l84c" path="res://editor/vector3i_editor.tscn" id="1_cdisb"]
@@ -26,6 +26,7 @@
 [ext_resource type="Texture2D" uid="uid://b1vde4gc0eucc" path="res://editor/graphics/play.svg" id="16_icxom"]
 [ext_resource type="Texture2D" uid="uid://c0m65x1vlgx55" path="res://editor/graphics/pause.svg" id="17_qf436"]
 [ext_resource type="Texture2D" uid="uid://oqhwjuvej85e" path="res://editor/graphics/stop.svg" id="18_2rivi"]
+[ext_resource type="PackedScene" uid="uid://dvwu6expqpnhf" path="res://editor/blackbody_lut_editor.tscn" id="20_dgghf"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2vlov"]
 content_margin_left = 8.0
@@ -531,7 +532,7 @@ script = ExtResource("1_2jb7h")
 [node name="SubViewport" type="SubViewport" parent="MarginContainer/TabContainer/Simulation/Simulation/HSplitContainer/Control/SubViewportContainer"]
 transparent_bg = true
 handle_input_locally = false
-size = Vector2i(662, 568)
+size = Vector2i(662, 668)
 render_target_update_mode = 4
 
 [node name="RenderScene" parent="MarginContainer/TabContainer/Simulation/Simulation/HSplitContainer/Control/SubViewportContainer/SubViewport" instance=ExtResource("1_nucwn")]
@@ -894,6 +895,9 @@ script = ExtResource("9_gaics")
 inactive_texture = ExtResource("10_p5ijg")
 keyframe_texture = ExtResource("8_borjp")
 active_texture = ExtResource("7_m5c0e")
+
+[node name="BlackbodyLUTEditor" parent="MarginContainer/TabContainer/Simulation/Simulation/HSplitContainer/TabContainer/Rendering/VBoxContainer" instance=ExtResource("20_dgghf")]
+layout_mode = 2
 
 [node name="LightDirLabel" type="Label" parent="MarginContainer/TabContainer/Simulation/Simulation/HSplitContainer/TabContainer/Rendering/VBoxContainer"]
 layout_mode = 2

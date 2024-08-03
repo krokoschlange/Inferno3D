@@ -87,6 +87,18 @@ var emission_intensity: float = 0.3:
 		emission_intensity = value
 		fog_mat.set_shader_parameter("emission_intensity", emission_intensity)
 		emission_mat.set_shader_parameter("emission_intensity", emission_intensity)
+var blackbody_lut_texture := GradientTexture1D.new():
+	set(value):
+		blackbody_lut_texture = value
+		fog_mat.set_shader_parameter("blackbody_lut", blackbody_lut_texture)
+		emission_mat.set_shader_parameter("blackbody_lut", blackbody_lut_texture)
+var blackbody_lut: Gradient = (load("res://simulation/blackbody_gradient.tres") as GradientTexture1D).gradient.duplicate():
+	set(value):
+		blackbody_lut = value
+		var tex := GradientTexture1D.new()
+		tex.gradient = blackbody_lut
+		blackbody_lut_texture = tex
+		
 var light_direction := Vector3(0, -1, 0):
 	set(value):
 		light_direction = value
@@ -133,6 +145,17 @@ var bounds_mesh := WireframeCube.new()
 
 func _ready() -> void:
 	print("ready")
+	smoke_color = smoke_color
+	scatter_factor = scatter_factor
+	emission_intensity = emission_intensity
+	blackbody_lut = blackbody_lut
+	light_direction = light_direction
+	light_color = light_color
+	ambient_light = ambient_light
+	normal_strength = normal_strength
+	normal_smoothness = normal_smoothness
+	velocity_map_strength = velocity_map_strength
+	
 	var mesh := BoxMesh.new()
 	mesh.size = Vector3(1, 1, 1)
 	volume.mesh = mesh

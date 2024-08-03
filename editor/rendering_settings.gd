@@ -13,6 +13,7 @@ extends Control
 @onready var smoke_color_editor: CustomColorPickerButton = $VBoxContainer/GridContainer/SmokeColorEditor
 @onready var scatter_factor_editor: FloatEditor = $VBoxContainer/GridContainer/ScatterFactorEditor
 @onready var emission_editor: FloatEditor = $VBoxContainer/GridContainer/EmissionEditor
+@onready var blackbody_lut_editor: BlackbodyLUTEditor = $VBoxContainer/BlackbodyLUTEditor
 @onready var light_dir_editor: Vector3Editor = $VBoxContainer/HBoxContainer2/LightDirEditor
 @onready var light_color_editor: CustomColorPickerButton = $VBoxContainer/GridContainer2/LightColorEditor
 @onready var ambient_color_editor: CustomColorPickerButton = $VBoxContainer/GridContainer2/AmbientColorEditor
@@ -79,6 +80,11 @@ func _ready() -> void:
 	emission_editor.action_complete.connect(func (new_value: float, old_value: float) -> void:
 		EditHistory.submit_object_actions([smoke_sim], "emission_intensity", [old_value], [new_value], update_ui))
 	
+	blackbody_lut_editor.gradient_changed.connect(func (new_gradient: Gradient) -> void:
+		smoke_sim.blackbody_lut = new_gradient)
+	blackbody_lut_editor.action_complete.connect(func (new_gradient: Gradient, old_gradient: Gradient) -> void:
+		EditHistory.submit_object_actions([smoke_sim], "blackbody_lut", [old_gradient], [new_gradient], update_ui))
+	
 	light_dir_editor.value_changed.connect(func (new_value: Vector3) -> void:
 		smoke_sim.light_direction = new_value
 		AnimationHandler.update_keyframe(smoke_sim, "light_dir_editor"))
@@ -131,6 +137,7 @@ func update_ui() -> void:
 	smoke_color_editor.color = smoke_sim.smoke_color
 	scatter_factor_editor.set_value_no_signal(smoke_sim.scatter_factor)
 	emission_editor.set_value_no_signal(smoke_sim.emission_intensity)
+	blackbody_lut_editor.gradient = smoke_sim.blackbody_lut
 	light_dir_editor.set_value_no_signal(smoke_sim.light_direction)
 	light_color_editor.color = smoke_sim.light_color
 	ambient_color_editor.color = smoke_sim.ambient_light

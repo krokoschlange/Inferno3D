@@ -31,6 +31,8 @@ func save(filename: String, use_last_used_path: bool = false) -> void:
 	file.set_value("Rendering", "smoke_color", smoke_sim.smoke_color)
 	file.set_value("Rendering", "scatter_factor", smoke_sim.scatter_factor)
 	file.set_value("Rendering", "emission_intensity", smoke_sim.emission_intensity)
+	file.set_value("Rendering", "blackbody_lut_offsets", smoke_sim.blackbody_lut.offsets)
+	file.set_value("Rendering", "blackbody_lut_colors", smoke_sim.blackbody_lut.colors)
 	file.set_value("Rendering", "light_direction", smoke_sim.light_direction)
 	file.set_value("Rendering", "light_color", smoke_sim.light_color)
 	file.set_value("Rendering", "ambient_light", smoke_sim.ambient_light)
@@ -113,6 +115,11 @@ func read(filename: String) -> void:
 	smoke_sim.smoke_color = file.get_value("Rendering", "smoke_color", Color.WHITE)
 	smoke_sim.scatter_factor = file.get_value("Rendering", "scatter_factor", 0.5)
 	smoke_sim.emission_intensity = file.get_value("Rendering", "emission_intensity", 0.3)
+	var blackbody_lut: Gradient = (load("res://simulation/blackbody_gradient.tres") as GradientTexture1D).gradient.duplicate()
+	blackbody_lut.offsets = file.get_value("Rendering", "blackbody_lut_offsets", blackbody_lut.offsets)
+	blackbody_lut.colors = file.get_value("Rendering", "blackbody_lut_colors", blackbody_lut.colors)
+	smoke_sim.blackbody_lut = blackbody_lut
+	
 	smoke_sim.light_direction = file.get_value("Rendering", "light_direction", Vector3(0, -1, 0))
 	smoke_sim.light_color = file.get_value("Rendering", "light_color", Color.WHITE)
 	smoke_sim.ambient_light = file.get_value("Rendering", "ambient_light", Color(0.148, 0.148, 0.148, 1))

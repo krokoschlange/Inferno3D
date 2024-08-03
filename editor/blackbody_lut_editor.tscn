@@ -1,56 +1,46 @@
-[gd_scene load_steps=6 format=3 uid="uid://dvwu6expqpnhf"]
+[gd_scene load_steps=5 format=3 uid="uid://dvwu6expqpnhf"]
 
 [ext_resource type="Script" path="res://editor/float_editor.gd" id="1_a1yr6"]
 [ext_resource type="Script" path="res://editor/blackbody_lut_editor.gd" id="1_xxqhd"]
-[ext_resource type="Texture2D" uid="uid://c6jdg7t0i0n61" path="res://simulation/blackbody_gradient.tres" id="2_la7tj"]
 [ext_resource type="Script" path="res://editor/custom_color_picker_button.gd" id="2_u8pw1"]
 [ext_resource type="Script" path="res://editor/gradient_editor.gd" id="5_t0tm6"]
 
-[node name="BlackbodyLUTEditor" type="Control"]
-layout_mode = 3
+[node name="BlackbodyLUTEditor" type="VBoxContainer"]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_xxqhd")
-lut = ExtResource("2_la7tj")
 temp_range = Vector2(0, 10000)
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="GridContainer" type="GridContainer" parent="VBoxContainer"]
+[node name="GridContainer" type="GridContainer" parent="."]
 layout_mode = 2
 columns = 2
 
-[node name="FloatEditor" type="LineEdit" parent="VBoxContainer/GridContainer"]
+[node name="FloatEditor" type="LineEdit" parent="GridContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 script = ExtResource("1_a1yr6")
 accuracy = 10.0
 drag_speed = 10.0
 
-[node name="CustomColorPickerButton" type="ColorPickerButton" parent="VBoxContainer/GridContainer"]
+[node name="CustomColorPickerButton" type="ColorPickerButton" parent="GridContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 script = ExtResource("2_u8pw1")
 
-[node name="GradientEditor" type="MarginContainer" parent="VBoxContainer"]
+[node name="GradientEditor" type="MarginContainer" parent="."]
+z_index = 1
+custom_minimum_size = Vector2(0, 30)
 layout_mode = 2
-size_flags_vertical = 3
 theme_override_constants/margin_left = 5
 theme_override_constants/margin_top = 5
 theme_override_constants/margin_right = 5
 theme_override_constants/margin_bottom = 5
 script = ExtResource("5_t0tm6")
 
-[node name="TextureRect" type="TextureRect" parent="VBoxContainer/GradientEditor"]
+[node name="TextureRect" type="TextureRect" parent="GradientEditor"]
 z_index = -1
 layout_mode = 2
 size_flags_vertical = 3
