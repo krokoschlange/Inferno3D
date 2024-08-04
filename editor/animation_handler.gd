@@ -51,11 +51,11 @@ func remove_keyframe(object: Object, property: String) -> void:
 		set_frame(current_frame)
 		animations_changed.emit()
 
-func remove_keyframe_at(object: Object, property: String, frame: int) -> void:
+func remove_keyframe_at(object: Object, property: String, frame: int, remove_empty: bool = true) -> void:
 	var anim: PropertyAnimation = get_animation(object, property, true)
 	if anim:
 		anim.remove_keyframe(frame)
-		if anim.keyframes.size() == 0:
+		if remove_empty and anim.keyframes.size() == 0:
 			animations.erase(anim)
 		set_frame(current_frame)
 		animations_changed.emit()
@@ -117,3 +117,23 @@ func update_keyframe_at(object: Object, property: String, frame: int) -> void:
 		var value: Variant = anim.get_keyframe(frame)
 		if value != null:
 			anim.add_keyframe(frame, object.get(property))
+
+
+func remove_object(object: Object) -> Array[PropertyAnimation]:
+	var obj_anims: Array[PropertyAnimation] = []
+	var idx: int = 0
+	while idx < animations.size():
+		var anim: PropertyAnimation = animations[idx]
+		if anim.object == object:
+			obj_anims.append(anim)
+			animations.remove_at(idx)
+			idx -= 1
+		idx += 1
+	set_frame(current_frame)
+	animations_changed.emit()
+	return obj_anims
+
+func add_animations(anims: Array[PropertyAnimation]) -> void:
+	animations.append_array(anims)
+	set_frame(current_frame)
+	animations_changed.emit()

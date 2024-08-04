@@ -28,6 +28,11 @@ var current_frame: int:
 		queue_redraw()
 
 var dragging: bool = false
+var grabbed_keyframe: int
+var grabbed_keyframe_original: int
+var grabbed_keyframe_value: Variant
+var overridden_keyframe: int
+var overridden_keyframe_value: Variant
 
 func _ready() -> void:
 	play_button.toggled.connect(func (on: bool) -> void: AnimationHandler.playing = on)
@@ -72,13 +77,47 @@ func _gui_input(event: InputEvent) -> void:
 			frame -= AnimationHandler.warmup
 			frame = clampi(frame, -AnimationHandler.warmup, AnimationHandler.end)
 			AnimationHandler.current_frame = frame
+			if animation:
+				grabbed_keyframe = frame
+				grabbed_keyframe_original = frame
+				grabbed_keyframe_value = animation.get_keyframe(frame)
 			dragging = true
 		elif event.button_index == MOUSE_BUTTON_LEFT and not event.pressed:
+			var frame: int = roundi(event.position.x / zoom)
+			frame -= AnimationHandler.warmup
+			frame = clampi(frame, -AnimationHandler.warmup, AnimationHandler.end)
+			if grabbed_keyframe_value and frame != grabbed_keyframe_original:
+				var start_frame: int = grabbed_keyframe_original
+				var end_frame: int = grabbed_keyframe
+				var value: Variant = grabbed_keyframe_value
+				var obj: Object = animation.object
+				var prop: String = animation.property
+				var override_value: Variant = overridden_keyframe_value
+				EditHistory.submit_custom_actions([func () -> void:
+					AnimationHandler.remove_keyframe_at(obj, prop, start_frame, false)
+					if overridden_keyframe_value:
+						AnimationHandler.remove_keyframe_at(obj, prop, end_frame, false)
+					AnimationHandler.add_keyframe_at(obj, prop, end_frame, value)], [func () -> void:
+						AnimationHandler.remove_keyframe_at(obj, prop, end_frame, false)
+						if overridden_keyframe_value:
+							AnimationHandler.add_keyframe_at(obj, prop, end_frame, overridden_keyframe_value)
+						AnimationHandler.add_keyframe_at(obj, prop, start_frame, value)
+						], func () -> void: pass, [], [])
 			dragging = false
 	elif event is InputEventMouseMotion and dragging:
 			var frame: int = roundi(event.position.x / zoom)
 			frame -= AnimationHandler.warmup
 			frame = clampi(frame, -AnimationHandler.warmup, AnimationHandler.end)
+			if grabbed_keyframe_value:
+				AnimationHandler.remove_keyframe_at(animation.object, animation.property, grabbed_keyframe, false)
+				if overridden_keyframe_value and grabbed_keyframe == overridden_keyframe and grabbed_keyframe != frame:
+					AnimationHandler.add_keyframe_at(animation.object, animation.property, overridden_keyframe, overridden_keyframe_value)
+					overridden_keyframe_value = null
+				grabbed_keyframe = frame
+				if not overridden_keyframe_value:
+					overridden_keyframe = frame
+					overridden_keyframe_value = animation.get_keyframe(frame)
+				AnimationHandler.add_keyframe_at(animation.object, animation.property, grabbed_keyframe, grabbed_keyframe_value)
 			AnimationHandler.current_frame = frame
 
 func _draw() -> void:
@@ -160,4 +199,7 @@ func update_animation_list() -> void:
 		animation_selector.select(animation_selector.item_count - 1)
 		if animation_selector.item_count > 0:
 			animation_selector.item_selected.emit(animation_selector.item_count - 1)
+		else:
+			animation = null
+			queue_redraw()
 	

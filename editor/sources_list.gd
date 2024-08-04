@@ -107,6 +107,7 @@ func on_item_edited() -> void:
 	var source: SmokeSource = sources[get_edited()]
 	var old_name: String = source.name
 	source.name = get_edited().get_text(0)
+	source_settings.update_ui()
 	EditHistory.submit_object_actions([source], "name", [old_name], [source.name], update_names)
 	AnimationHandler.update_animation_names()
 
@@ -140,6 +141,8 @@ func add_source(src: SmokeSource, idx: int = -1) -> void:
 	select_source.call_deferred(src, false)
 
 func on_menu_id_pressed(id: int) -> void:
+	if not is_visible_in_tree():
+		return
 	match id:
 		MenuAction.DELETE:
 			if get_selected():
@@ -202,10 +205,12 @@ func update_source_gizmos() -> void:
 func remove_selected() -> void:
 	var it: TreeItem = get_next_selected(null)
 	var removed: Array[SmokeSource] = []
+	var removed_anims: Array[PropertyAnimation] = []
 	var removed_items: Array[TreeItem] = []
 	var indices: Array[int]
 	while it != null:
 		removed.append(sources[it])
+		removed_anims.append_array(AnimationHandler.remove_object(sources[it]))
 		removed_items.append(it)
 		indices.append(removed[-1].get_index())
 		it = get_next_selected(it)
@@ -220,7 +225,9 @@ func remove_selected() -> void:
 	EditHistory.submit_custom_actions([func () -> void:
 		for src: SmokeSource in removed:
 			remove_source_object(src)
+			AnimationHandler.remove_object(src)
 		], [func () -> void:
 		for idx: int in removed.size():
-			add_source(removed[idx], indices[idx])]
+			add_source(removed[idx], indices[idx])
+		AnimationHandler.add_animations(removed_anims)]
 		, update_ui, removed_objs, [])

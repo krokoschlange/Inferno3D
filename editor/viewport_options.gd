@@ -34,11 +34,9 @@ func _ready() -> void:
 	popup.set_item_checked(MenuAction.RENDER_COMBINED, true)
 	
 	popup.id_pressed.connect(item_pressed)
+	
+	popup.hide_on_checkable_item_selection = false
 
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
-	pass
 
 func item_pressed(id: int) -> void:
 	var popup: PopupMenu = get_popup()
@@ -48,14 +46,12 @@ func item_pressed(id: int) -> void:
 			on = not on
 			popup.set_item_checked(MenuAction.PREVIEW, on)
 			preview_toggled.emit(on)
-			show_popup.call_deferred()
 			popup.set_focused_item.call_deferred(MenuAction.PREVIEW)
 		MenuAction.PAUSE:
 			var on: bool = popup.is_item_checked(MenuAction.PAUSE)
 			on = not on
 			popup.set_item_checked(MenuAction.PAUSE, on)
 			pause_toggled.emit(on)
-			show_popup.call_deferred()
 			popup.set_focused_item.call_deferred(MenuAction.PAUSE)
 		MenuAction.RENDER_COMBINED:
 			set_render_mode(0)

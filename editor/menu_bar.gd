@@ -15,6 +15,8 @@ enum EditAction {
 @onready var file: PopupMenu = $File
 @onready var edit: PopupMenu = $Edit
 
+@onready var color_rect: RenderProgressPopup = $"../ColorRect"
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	file.id_pressed.connect(file_pressed)
@@ -41,6 +43,8 @@ func _ready() -> void:
 
 
 func file_pressed(id: int) -> void:
+	if color_rect.is_visible_in_tree():
+		return
 	match id:
 		FileAction.NEW:
 			new_file()
@@ -82,6 +86,8 @@ func save_file(new_path: bool) -> void:
 		dialog.file_selected.connect(func (path: String) -> void: FileIO.save(path))
 
 func edit_pressed(id: int) -> void:
+	if color_rect.is_visible_in_tree():
+		return
 	match id:
 		EditAction.UNDO:
 			EditHistory.undo()
