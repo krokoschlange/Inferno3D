@@ -27,6 +27,7 @@ var grid_pos: Vector2i
 
 var was_preview: bool
 var was_at_frame: int
+var was_in_mode: int
 
 @onready var grid_editor: Vector2iEditor = $"../../Container/MarginContainer/VBoxContainer/GridEditor"
 @onready var skip_editor: IntEditor = $"../../Container/MarginContainer/VBoxContainer/GridContainer/SkipEditor"
@@ -79,8 +80,10 @@ func _process(delta: float) -> void:
 func generate() -> void:
 	was_preview = viewport.preview
 	was_at_frame = AnimationHandler.current_frame
+	was_in_mode = viewport.render_mode
 	viewport.set_preview(true)
 	viewport.set_pause(false)
+	viewport.set_render_mode(0)
 	resolution = viewport.render_resolution
 	skip_frames = skip_editor.value
 	grid = grid_editor.value
@@ -146,6 +149,7 @@ func copy_image() -> void:
 		AnimationHandler.playing = false
 		AnimationHandler.current_frame = was_at_frame
 		viewport.set_preview(was_preview)
+		viewport.set_render_mode(was_in_mode)
 		progress.end()
 
 
