@@ -86,7 +86,7 @@ func _gui_input(event: InputEvent) -> void:
 			var frame: int = roundi(event.position.x / zoom)
 			frame -= AnimationHandler.warmup
 			frame = clampi(frame, -AnimationHandler.warmup, AnimationHandler.end)
-			if grabbed_keyframe_value and frame != grabbed_keyframe_original:
+			if grabbed_keyframe_value != null and frame != grabbed_keyframe_original:
 				var start_frame: int = grabbed_keyframe_original
 				var end_frame: int = grabbed_keyframe
 				var value: Variant = grabbed_keyframe_value
@@ -95,11 +95,11 @@ func _gui_input(event: InputEvent) -> void:
 				var override_value: Variant = overridden_keyframe_value
 				EditHistory.submit_custom_actions([func () -> void:
 					AnimationHandler.remove_keyframe_at(obj, prop, start_frame, false)
-					if overridden_keyframe_value:
+					if overridden_keyframe_value != null:
 						AnimationHandler.remove_keyframe_at(obj, prop, end_frame, false)
 					AnimationHandler.add_keyframe_at(obj, prop, end_frame, value)], [func () -> void:
 						AnimationHandler.remove_keyframe_at(obj, prop, end_frame, false)
-						if overridden_keyframe_value:
+						if overridden_keyframe_value != null:
 							AnimationHandler.add_keyframe_at(obj, prop, end_frame, overridden_keyframe_value)
 						AnimationHandler.add_keyframe_at(obj, prop, start_frame, value)
 						], func () -> void: pass, [], [])
@@ -108,13 +108,13 @@ func _gui_input(event: InputEvent) -> void:
 			var frame: int = roundi(event.position.x / zoom)
 			frame -= AnimationHandler.warmup
 			frame = clampi(frame, -AnimationHandler.warmup, AnimationHandler.end)
-			if grabbed_keyframe_value:
+			if grabbed_keyframe_value != null:
 				AnimationHandler.remove_keyframe_at(animation.object, animation.property, grabbed_keyframe, false)
-				if overridden_keyframe_value and grabbed_keyframe == overridden_keyframe and grabbed_keyframe != frame:
+				if overridden_keyframe_value != null and grabbed_keyframe == overridden_keyframe and grabbed_keyframe != frame:
 					AnimationHandler.add_keyframe_at(animation.object, animation.property, overridden_keyframe, overridden_keyframe_value)
 					overridden_keyframe_value = null
 				grabbed_keyframe = frame
-				if not overridden_keyframe_value:
+				if overridden_keyframe_value == null:
 					overridden_keyframe = frame
 					overridden_keyframe_value = animation.get_keyframe(frame)
 				AnimationHandler.add_keyframe_at(animation.object, animation.property, grabbed_keyframe, grabbed_keyframe_value)
