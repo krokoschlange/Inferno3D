@@ -31,13 +31,23 @@ func _ready() -> void:
 	FileIO.render_scene_vp = sub_viewport_container
 	FileIO.sprite_sheet_gen = sprite_sheet_generator
 	FileIO.file_loaded.connect(update_ui)
-
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
-	pass
+	
+	FileIO.file_changed.connect(update_window_title)
+	EditHistory.history_jump.connect(update_window_title)
+	EditHistory.history_changed.connect(update_window_title)
+	update_window_title()
 
 func update_ui() -> void:
 	sources_list.update_ui()
 	simulation.update_ui()
 	rendering.update_ui()
+
+func update_window_title() -> void:
+	var window: Window = get_window()
+	var filename: String = "Unsaved"
+	if FileIO.last_file_path != "":
+		filename = FileIO.last_file_path.rsplit("/", true, 1)[1]
+	var saved: bool = EditHistory.saved_item == EditHistory.current_item
+	if not saved:
+		filename += "*"
+	window.title = "Inferno3D - " + filename

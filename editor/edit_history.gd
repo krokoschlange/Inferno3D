@@ -1,10 +1,13 @@
 extends Node
 
 signal history_changed()
+signal history_jump()
 
 var current_item: int
 var history: Array[ActionGroup]
 var max_length: int = 128
+
+var saved_item: int = -1
 
 func has_undo() -> bool:
 	return current_item < history.size()
@@ -15,6 +18,7 @@ func has_redo() -> bool:
 func clear() -> void:
 	history.clear()
 	current_item = 0
+	saved_item = -1
 	history_changed.emit()
 
 func submit_object_actions(objects: Array[Object], property: String, old_values: Array, new_values: Array, update_ui: Callable, ) -> void:
@@ -53,6 +57,7 @@ func add_action_group(group: ActionGroup) -> void:
 			else:
 				obj.free()
 		current_item -= 1
+		saved_item -= 1
 	history.push_front(group)
 	while history.size() > max_length:
 		var old := history.pop_back() as ActionGroup
@@ -61,6 +66,7 @@ func add_action_group(group: ActionGroup) -> void:
 				obj.queue_free()
 			else:
 				obj.free()
+	saved_item += 1
 	history_changed.emit()
 
 func redo() -> void:
@@ -68,12 +74,17 @@ func redo() -> void:
 		return
 	current_item -= 1
 	history[current_item].redo()
+	history_jump.emit()
 
 func undo() -> void:
 	if current_item >= history.size():
 		return
 	history[current_item].undo()
 	current_item += 1
+	history_jump.emit()
+
+func save_current() -> void:
+	saved_item = current_item
 
 class Action:
 	var redo_func: Callable

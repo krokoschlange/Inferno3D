@@ -1,12 +1,16 @@
 extends Node
 
+signal file_changed()
 signal file_loaded()
 
 var render_scene: RenderScene
 var render_scene_vp: RenderSceneVP
 var sprite_sheet_gen: SpriteSheetGenerator
 
-var last_file_path: String
+var last_file_path: String:
+	set(value):
+		last_file_path = value
+		file_changed.emit()
 
 func save(filename: String, use_last_used_path: bool = false) -> void:
 	var smoke_sim: SmokeSim = render_scene.smoke_sim
@@ -88,8 +92,10 @@ func save(filename: String, use_last_used_path: bool = false) -> void:
 	var path: String = filename
 	if use_last_used_path:
 		path = last_file_path
-	last_file_path = path
+	
 	file.save(path)
+	EditHistory.save_current()
+	last_file_path = path
 
 func read(filename: String) -> void:
 	var smoke_sim: SmokeSim = render_scene.smoke_sim
@@ -192,8 +198,8 @@ func read(filename: String) -> void:
 		anim_idx += 1
 		section = "Animation" + str(anim_idx)
 	
-	last_file_path = filename
-	
 	EditHistory.clear()
+	EditHistory.save_current()
+	last_file_path = filename
 	
 	file_loaded.emit()
