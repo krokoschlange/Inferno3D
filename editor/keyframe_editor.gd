@@ -100,7 +100,7 @@ func _gui_input(event: InputEvent) -> void:
 					AnimationHandler.add_keyframe_at(obj, prop, end_frame, value)], [func () -> void:
 						AnimationHandler.remove_keyframe_at(obj, prop, end_frame, false)
 						if overridden_keyframe_value != null:
-							AnimationHandler.add_keyframe_at(obj, prop, end_frame, overridden_keyframe_value)
+							AnimationHandler.add_keyframe_at(obj, prop, end_frame, override_value)
 						AnimationHandler.add_keyframe_at(obj, prop, start_frame, value)
 						], func () -> void: pass, [], [])
 			dragging = false

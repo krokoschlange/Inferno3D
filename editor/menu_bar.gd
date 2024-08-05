@@ -12,10 +12,19 @@ enum EditAction {
 	REDO = 1,
 }
 
+enum HelpAction {
+	ONLINE_HELP = 0,
+	ABOUT = 1,
+}
+
 @onready var file: PopupMenu = $File
 @onready var edit: PopupMenu = $Edit
+@onready var help: PopupMenu = $Help
+
+@onready var about_window: Window = $"../AboutWindow"
 
 @onready var color_rect: RenderProgressPopup = $"../ColorRect"
+
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -30,6 +39,11 @@ func _ready() -> void:
 	edit.add_item("Redo", EditAction.REDO, KEY_Z | KEY_MASK_CTRL | KEY_MASK_SHIFT)
 	edit.set_item_disabled(EditAction.UNDO, not EditHistory.has_undo())
 	edit.set_item_disabled(EditAction.REDO, not EditHistory.has_redo())
+	
+	help.id_pressed.connect(help_pressed)
+	help.add_item("Online Help", HelpAction.ONLINE_HELP)
+	help.add_item("About", HelpAction.ABOUT)
+	
 	EditHistory.history_changed.connect(func () -> void:
 		edit.set_item_disabled(EditAction.UNDO, not EditHistory.has_undo())
 		edit.set_item_disabled(EditAction.REDO, not EditHistory.has_redo()))
@@ -100,3 +114,12 @@ func edit_pressed(id: int) -> void:
 			edit.set_item_disabled(EditAction.REDO, not EditHistory.has_redo())
 		_:
 			pass
+
+func help_pressed(id: int) -> void:
+	if color_rect.is_visible_in_tree():
+		return
+	match id:
+		HelpAction.ONLINE_HELP:
+			OS.shell_open("https://github.com/krokoschlange/Inferno3D/wiki")
+		HelpAction.ABOUT:
+			about_window.show()

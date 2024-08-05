@@ -1,4 +1,4 @@
-[gd_scene load_steps=47 format=3 uid="uid://b7srvsqse7vrs"]
+[gd_scene load_steps=48 format=3 uid="uid://b7srvsqse7vrs"]
 
 [ext_resource type="Script" path="res://editor/render_scene_vp.gd" id="1_2jb7h"]
 [ext_resource type="PackedScene" uid="uid://3u4cjoe6l84c" path="res://editor/vector3i_editor.tscn" id="1_cdisb"]
@@ -27,6 +27,7 @@
 [ext_resource type="Texture2D" uid="uid://c0m65x1vlgx55" path="res://editor/graphics/pause.svg" id="17_qf436"]
 [ext_resource type="Texture2D" uid="uid://oqhwjuvej85e" path="res://editor/graphics/stop.svg" id="18_2rivi"]
 [ext_resource type="PackedScene" uid="uid://dvwu6expqpnhf" path="res://editor/blackbody_lut_editor.tscn" id="20_dgghf"]
+[ext_resource type="PackedScene" uid="uid://dcijjxf2vax0h" path="res://editor/about_window.tscn" id="27_q8xgw"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2vlov"]
 content_margin_left = 8.0
@@ -254,7 +255,7 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_lajv1")
 
 [node name="DeleteConfirmationDialog" type="ConfirmationDialog" parent="MarginContainer/TabContainer/Simulation/Simulation/TabContainer/Sources/Sources/SourcesList"]
 initial_position = 2
-size = Vector2i(206, 100)
+size = Vector2i(228, 100)
 force_native = true
 dialog_text = "Delete all selected sources?"
 
@@ -1225,6 +1226,8 @@ size = Vector2i(300, 100)
 min_size = Vector2i(300, 0)
 theme_override_styles/panel = SubResource("StyleBoxFlat_bp5kp")
 
+[node name="Help" type="PopupMenu" parent="MenuBar"]
+
 [node name="ColorRect" type="ColorRect" parent="."]
 visible = false
 z_as_relative = false
@@ -1270,6 +1273,10 @@ text = "Rendering Frame"
 [node name="ProgressBar" type="ProgressBar" parent="ColorRect/PanelContainer/MarginContainer/VBoxContainer"]
 custom_minimum_size = Vector2(200, 0)
 layout_mode = 2
+
+[node name="AboutWindow" parent="." instance=ExtResource("27_q8xgw")]
+visible = false
+force_native = true
 
 [connection signal="pressed" from="MarginContainer/TabContainer/Simulation/Simulation/TabContainer/Sources/Sources/AddSource" to="MarginContainer/TabContainer/Simulation/Simulation/TabContainer/Sources/Sources/SourcesList" method="_on_add_source_pressed"]
 [connection signal="pressed" from="MarginContainer/TabContainer/Sprite Sheet/HSplitContainer/Container/MarginContainer/VBoxContainer/RenderButton" to="MarginContainer/TabContainer/Sprite Sheet/HSplitContainer/VSplitContainer/SpriteSheetGenerator" method="generate"]

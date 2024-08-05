@@ -13,7 +13,8 @@ config_version=5
 config/name="fluids"
 run/main_scene="res://editor/main_editor.tscn"
 config/features=PackedStringArray("4.3", "Forward Plus")
-config/icon="res://simulation/icon.svg"
+config/icon="res://inferno-logo.png"
+config/windows_native_icon="res://inferno-logo.ico"
 
 [autoload]
 
