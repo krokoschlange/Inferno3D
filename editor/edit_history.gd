@@ -8,6 +8,7 @@ var history: Array[ActionGroup]
 var max_length: int = 128
 
 var saved_item: int = -1
+var is_saved: bool = false
 
 func has_undo() -> bool:
 	return current_item < history.size()
@@ -19,6 +20,7 @@ func clear() -> void:
 	history.clear()
 	current_item = 0
 	saved_item = -1
+	is_saved = false
 	history_changed.emit()
 
 func submit_object_actions(objects: Array[Object], property: String, old_values: Array, new_values: Array, update_ui: Callable, ) -> void:
@@ -85,6 +87,7 @@ func undo() -> void:
 
 func save_current() -> void:
 	saved_item = current_item
+	is_saved = true
 
 class Action:
 	var redo_func: Callable

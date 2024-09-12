@@ -47,7 +47,7 @@ func update_window_title() -> void:
 	var filename: String = "Unsaved"
 	if FileIO.last_file_path != "":
 		filename = FileIO.last_file_path.rsplit("/", true, 1)[1]
-	var saved: bool = EditHistory.saved_item == EditHistory.current_item
+	var saved: bool = EditHistory.is_saved and EditHistory.saved_item == EditHistory.current_item
 	if not saved:
 		filename += "*"
 	window.title = "Inferno3D - " + filename
