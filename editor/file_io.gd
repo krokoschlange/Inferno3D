@@ -46,6 +46,7 @@ func save(filename: String, use_last_used_path: bool = false) -> void:
 	
 	file.set_value("SpriteSheet", "grid", sprite_sheet_gen.grid_editor.value)
 	file.set_value("SpriteSheet", "skip", sprite_sheet_gen.skip_editor.value)
+	file.set_value("SpriteSheet", "crossfade_amount", sprite_sheet_gen.loop_amount_editor.value)
 	
 	var source_idx: int = 0
 	for child in smoke_sim.get_children():
@@ -135,6 +136,7 @@ func read(filename: String) -> void:
 	
 	sprite_sheet_gen.grid_editor.set_value_no_signal(file.get_value("SpriteSheet", "grid", Vector2i(1, 1)))
 	sprite_sheet_gen.skip_editor.set_value_no_signal(file.get_value("SpriteSheet", "skip", 0))
+	sprite_sheet_gen.loop_amount_editor.set_value_no_signal(file.get_value("SpriteSheet", "crossfade_amount", 0))
 	
 	for child in smoke_sim.get_children():
 		if not child is SmokeSource:

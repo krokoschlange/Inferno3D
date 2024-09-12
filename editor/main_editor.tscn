@@ -1198,6 +1198,7 @@ layout_mode = 2
 selected = 0
 item_count = 5
 popup/item_0/text = "Combined"
+popup/item_0/id = 0
 popup/item_1/text = "Albedo"
 popup/item_1/id = 1
 popup/item_2/text = "Emission"
