@@ -56,6 +56,10 @@ func _ready() -> void:
 	skip_editor.action_complete.connect(func (new_value: int, old_value: int) -> void:
 		EditHistory.submit_object_actions([self], "skip_frames", [old_value], [new_value], update_ui))
 	
+	loop_amount_editor.value_changed.connect(func (new_value: int) -> void: crossfade_amount = new_value)
+	loop_amount_editor.action_complete.connect(func (new_value: int, old_value: int) -> void:
+		EditHistory.submit_object_actions([self], "crossfade_amount", [old_value], [new_value], update_ui))
+	
 	texture = image_texture
 	texture_selector.item_selected.connect(func (index: int) -> void:
 		match index:
@@ -220,6 +224,7 @@ func copy_image() -> void:
 func update_ui() -> void:
 	grid_editor.set_value_no_signal(grid)
 	skip_editor.set_value_no_signal(skip_frames)
+	loop_amount_editor.set_value_no_signal(crossfade_amount)
 
 
 func open_export_window() -> void:
