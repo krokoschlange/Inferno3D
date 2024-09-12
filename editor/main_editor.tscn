@@ -1165,6 +1165,15 @@ text = "Skip Frames"
 layout_mode = 2
 max_value = 100
 
+[node name="LoopAmountLabel" type="Label" parent="MarginContainer/TabContainer/Sprite Sheet/HSplitContainer/Container/MarginContainer/VBoxContainer/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Crossfade Frames"
+
+[node name="LoopAmountEditor" parent="MarginContainer/TabContainer/Sprite Sheet/HSplitContainer/Container/MarginContainer/VBoxContainer/GridContainer" instance=ExtResource("3_86eo3")]
+layout_mode = 2
+max_value = 1000
+
 [node name="HSeparator" type="HSeparator" parent="MarginContainer/TabContainer/Sprite Sheet/HSplitContainer/Container/MarginContainer/VBoxContainer"]
 layout_mode = 2
 

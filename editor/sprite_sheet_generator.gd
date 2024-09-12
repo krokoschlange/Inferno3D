@@ -24,6 +24,8 @@ var velocity_texture := ImageTexture.new()
 var processing: bool
 var skip_frame: int
 var grid_pos: Vector2i
+var crossfade_amount: int
+var crossfade_frame: int
 
 var was_preview: bool
 var was_at_frame: int
@@ -32,6 +34,8 @@ var was_in_mode: int
 @onready var grid_editor: Vector2iEditor = $"../../Container/MarginContainer/VBoxContainer/GridEditor"
 @onready var skip_editor: IntEditor = $"../../Container/MarginContainer/VBoxContainer/GridContainer/SkipEditor"
 @onready var texture_selector: OptionButton = $"../HBoxContainer/OptionButton"
+@onready var loop_amount_editor: IntEditor = $"../../Container/MarginContainer/VBoxContainer/GridContainer/LoopAmountEditor"
+
 
 func _ready() -> void:
 	grid_editor.value_changed.connect(func (new_value: Vector2i) -> void: grid = new_value)
@@ -90,14 +94,17 @@ func generate() -> void:
 	var total_res: Vector2i = resolution * grid
 	image = Image.create(total_res.x, total_res.y, false, Image.FORMAT_RGBA8)
 	albedo = Image.create(total_res.x, total_res.y, false, Image.FORMAT_RGBA8)
-	emission = Image.create(total_res.x, total_res.y, false, Image.FORMAT_RGB8)
-	normal = Image.create(total_res.x, total_res.y, false, Image.FORMAT_RGB8)
-	velocity = Image.create(total_res.x, total_res.y, false, Image.FORMAT_RGB8)
+	emission = Image.create(total_res.x, total_res.y, false, Image.FORMAT_RGBA8)
+	normal = Image.create(total_res.x, total_res.y, false, Image.FORMAT_RGBA8)
+	velocity = Image.create(total_res.x, total_res.y, false, Image.FORMAT_RGBA8)
 	image_texture.set_image(image)
 	albedo_texture.set_image(albedo)
 	emission_texture.set_image(emission)
 	normal_texture.set_image(normal)
 	velocity_texture.set_image(velocity)
+	
+	crossfade_amount = loop_amount_editor.value
+	crossfade_frame = -1
 	
 	skip_frame = 0
 	grid_pos = Vector2i(0, 0)
@@ -118,33 +125,90 @@ func copy_image() -> void:
 	
 	var offset: Vector2i = grid_pos * resolution
 	
-	var img: Image = viewport.sub_viewport.get_texture().get_image()
-	image.blit_rect(img, Rect2i(0, 0, img.get_width(), img.get_height()), offset)
-	image_texture.set_image(image)
-	
-	img = viewport.render_scene.albedo_vp.get_texture().get_image()
-	albedo.blit_rect(img, Rect2i(0, 0, img.get_width(), img.get_height()), offset)
-	albedo_texture.set_image(albedo)
-	
-	img = viewport.render_scene.emission_vp.get_texture().get_image()
-	emission.blit_rect(img, Rect2i(0, 0, img.get_width(), img.get_height()), offset)
-	emission_texture.set_image(emission)
-	
-	img = viewport.render_scene.normal_vp.get_texture().get_image()
-	normal.blit_rect(img, Rect2i(0, 0, img.get_width(), img.get_height()), offset)
-	normal_texture.set_image(normal)
-	
-	img = viewport.render_scene.velocity_vp.get_texture().get_image()
-	velocity.blit_rect(img, Rect2i(0, 0, img.get_width(), img.get_height()), offset)
-	velocity_texture.set_image(velocity)
-	
+	if crossfade_frame < 0:
+		var img: Image = viewport.sub_viewport.get_texture().get_image()
+		img.convert(Image.FORMAT_RGBA8)
+		image.blit_rect(img, Rect2i(0, 0, img.get_width(), img.get_height()), offset)
+		image_texture.set_image(image)
+		
+		img = viewport.render_scene.albedo_vp.get_texture().get_image()
+		img.convert(Image.FORMAT_RGBA8)
+		albedo.blit_rect(img, Rect2i(0, 0, img.get_width(), img.get_height()), offset)
+		albedo_texture.set_image(albedo)
+		
+		img = viewport.render_scene.emission_vp.get_texture().get_image()
+		img.convert(Image.FORMAT_RGBA8)
+		emission.blit_rect(img, Rect2i(0, 0, img.get_width(), img.get_height()), offset)
+		emission_texture.set_image(emission)
+		
+		img = viewport.render_scene.normal_vp.get_texture().get_image()
+		img.convert(Image.FORMAT_RGBA8)
+		normal.blit_rect(img, Rect2i(0, 0, img.get_width(), img.get_height()), offset)
+		normal_texture.set_image(normal)
+		
+		img = viewport.render_scene.velocity_vp.get_texture().get_image()
+		img.convert(Image.FORMAT_RGBA8)
+		velocity.blit_rect(img, Rect2i(0, 0, img.get_width(), img.get_height()), offset)
+		velocity_texture.set_image(velocity)
+	else:
+		offset = Vector2i(crossfade_frame % grid.x, crossfade_frame / grid.x) * resolution
+		var alpha: float = 1 - float(crossfade_frame + 1) / (crossfade_amount + 1)
+		
+		var img: Image = viewport.sub_viewport.get_texture().get_image()
+		img.convert(Image.FORMAT_RGBA8)
+		var data: PackedByteArray = img.get_data()
+		for i: int in data.size() / 4:
+			data[i * 4 + 3] = clampi(data[i * 4 + 3] * alpha, 0, 255)
+		img.set_data(img.get_width(), img.get_height(), false, Image.FORMAT_RGBA8, data)
+		image.blend_rect(img, Rect2i(0, 0, img.get_width(), img.get_height()), offset)
+		image_texture.set_image(image)
+		
+		img = viewport.render_scene.albedo_vp.get_texture().get_image()
+		img.convert(Image.FORMAT_RGBA8)
+		data = img.get_data()
+		for i: int in data.size() / 4:
+			data[i * 4 + 3] = clampi(data[i * 4 + 3] * alpha, 0, 255)
+		img.set_data(img.get_width(), img.get_height(), false, Image.FORMAT_RGBA8, data)
+		albedo.blend_rect(img, Rect2i(0, 0, img.get_width(), img.get_height()), offset)
+		albedo_texture.set_image(albedo)
+		
+		img = viewport.render_scene.emission_vp.get_texture().get_image()
+		img.convert(Image.FORMAT_RGBA8)
+		data = img.get_data()
+		for i: int in data.size() / 4:
+			data[i * 4 + 3] = clampi(data[i * 4 + 3] * alpha, 0, 255)
+		img.set_data(img.get_width(), img.get_height(), false, Image.FORMAT_RGBA8, data)
+		emission.blend_rect(img, Rect2i(0, 0, img.get_width(), img.get_height()), offset)
+		emission_texture.set_image(emission)
+		
+		img = viewport.render_scene.normal_vp.get_texture().get_image()
+		img.convert(Image.FORMAT_RGBA8)
+		data = img.get_data()
+		for i: int in data.size() / 4:
+			data[i * 4 + 3] = clampi(data[i * 4 + 3] * alpha, 0, 255)
+		img.set_data(img.get_width(), img.get_height(), false, Image.FORMAT_RGBA8, data)
+		normal.blend_rect(img, Rect2i(0, 0, img.get_width(), img.get_height()), offset)
+		normal_texture.set_image(normal)
+		
+		img = viewport.render_scene.velocity_vp.get_texture().get_image()
+		img.convert(Image.FORMAT_RGBA8)
+		data = img.get_data()
+		for i: int in data.size() / 4:
+			data[i * 4 + 3] = clampi(data[i * 4 + 3] * alpha, 0, 255)
+		img.set_data(img.get_width(), img.get_height(), false, Image.FORMAT_RGBA8, data)
+		velocity.blend_rect(img, Rect2i(0, 0, img.get_width(), img.get_height()), offset)
+		velocity_texture.set_image(velocity)
 	
 	progress.frame()
 	grid_pos.x += 1
 	if grid_pos.x >= grid.x:
 		grid_pos.x = 0
 		grid_pos.y += 1
-	if grid_pos.y >= grid.y:
+	if grid_pos.y >= grid.y and crossfade_frame < 0 and crossfade_amount > 0:
+		crossfade_frame = 0
+	elif crossfade_frame >= 0 and crossfade_frame < crossfade_amount - 1:
+		crossfade_frame += 1
+	elif grid_pos.y >= grid.y:
 		processing = false
 		AnimationHandler.playing = false
 		AnimationHandler.current_frame = was_at_frame
@@ -169,6 +233,8 @@ func open_export_window() -> void:
 	dialog.file_selected.connect(export)
 
 func export(path: String) -> void:
+	if not image:
+		return
 	path = path.rsplit(".")[0]
 	image.save_png(path + "_combined.png")
 	albedo.save_png(path + "_albedo.png")
