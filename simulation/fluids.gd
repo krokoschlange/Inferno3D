@@ -130,6 +130,10 @@ var normal_smoothness: float = 1.0:
 	set(value):
 		normal_smoothness = value
 		normal_mat.set_shader_parameter("normal_smoothness", normal_smoothness)
+var normal_surface: bool = false:
+	set(value):
+		normal_surface = value
+		normal_mat.set_shader_parameter("surface_only", normal_surface)
 var velocity_map_strength: float = 1.0:
 	set(value):
 		velocity_map_strength = value
@@ -154,6 +158,7 @@ func _ready() -> void:
 	ambient_light = ambient_light
 	normal_strength = normal_strength
 	normal_smoothness = normal_smoothness
+	normal_surface = normal_surface
 	velocity_map_strength = velocity_map_strength
 	
 	var mesh := BoxMesh.new()

@@ -5,6 +5,8 @@ uniform sampler3D density: repeat_disable;
 
 uniform float normal_smoothness = 1.0;
 uniform float normal_strength = 1.0;
+uniform bool surface_only = false;
+
 
 uniform vec3 size;
 uniform int samples;
@@ -60,7 +62,6 @@ void fragment() {
 	pos += pos_diff * noise_offset;
 
 	float transparency = 1.0;
-	vec3 emit = vec3(0);
 	vec3 norm = vec3(0, 0, 1);
 
 	vec3 diff_size = normal_smoothness / vec3(textureSize(density, 0));
@@ -73,6 +74,7 @@ void fragment() {
 			float diff = transparency;
 			transparency *= ext;
 			diff -= transparency;
+			diff = max(0.0, diff);
 
 			float dens_b = textureLod(density, pos_to_uvw(pos) + vec3(0, -1, 0) * diff_size.y, 0).r;
 			float dens_t = textureLod(density, pos_to_uvw(pos) + vec3(0, 1, 0) * diff_size.y, 0).r;
@@ -81,8 +83,14 @@ void fragment() {
 			float dens_l = textureLod(density, pos_to_uvw(pos) + vec3(-1, 0, 0) * diff_size.x, 0).r;
 			float dens_r = textureLod(density, pos_to_uvw(pos) + vec3(1, 0, 0) * diff_size.x, 0).r;
 
-			vec3 local_norm = normalize(vec3(dens_l - dens_r, dens_b - dens_t, dens_f - dens_n));
-			norm += local_norm * diff;
+			vec3 gradient = vec3(dens_l - dens_r, dens_b - dens_t, dens_f - dens_n);
+			if (length(gradient) > 0.0) {
+				vec3 local_norm = normalize(gradient);
+				norm += local_norm * diff;
+			}
+			if (surface_only) {
+				break;
+			}
 		}
 
 		pos += pos_diff;
@@ -94,6 +102,12 @@ void fragment() {
 		norm.xy /= 1.0 - transparency;
 	}
 	norm.xy *= normal_strength;
-	norm = normalize(norm);
-	ALBEDO = pow(vec3(norm * 0.5 + 0.5), vec3(2.2));
+	if (length(norm) > 0.0) {
+		norm = normalize(norm);
+	} else {
+		norm = vec3(0, 0, 1);
+	}
+	norm = norm * 0.5 + 0.5;
+	norm = clamp(norm, 0, 1);
+	ALBEDO = pow(norm, vec3(2.2));
 }

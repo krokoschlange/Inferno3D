@@ -42,6 +42,7 @@ func save(filename: String, use_last_used_path: bool = false) -> void:
 	file.set_value("Rendering", "ambient_light", smoke_sim.ambient_light)
 	file.set_value("Rendering", "normal_strength", smoke_sim.normal_strength)
 	file.set_value("Rendering", "normal_smoothness", smoke_sim.normal_smoothness)
+	file.set_value("Rendering", "normal_surface", smoke_sim.normal_surface)
 	file.set_value("Rendering", "velocity_map_strength", smoke_sim.velocity_map_strength)
 	
 	file.set_value("SpriteSheet", "grid", sprite_sheet_gen.grid_editor.value)
@@ -133,6 +134,7 @@ func read(filename: String) -> void:
 	smoke_sim.ambient_light = file.get_value("Rendering", "ambient_light", Color(0.148, 0.148, 0.148, 1))
 	smoke_sim.normal_strength = file.get_value("Rendering", "normal_strength", 1.0)
 	smoke_sim.normal_smoothness = file.get_value("Rendering", "normal_smoothness", 1.0)
+	smoke_sim.normal_surface = file.get_value("Rendering", "normal_surface", false)
 	smoke_sim.velocity_map_strength = file.get_value("Rendering", "velocity_map_strength", 1.0)
 	
 	sprite_sheet_gen.grid_editor.set_value_no_signal(file.get_value("SpriteSheet", "grid", Vector2i(1, 1)))
