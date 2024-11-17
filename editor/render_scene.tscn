@@ -1,20 +1,20 @@
 [gd_scene load_steps=13 format=3 uid="uid://b3cky14ct0q7y"]
 
-[ext_resource type="Script" path="res://editor/render_camera.gd" id="1_2c2xe"]
+[ext_resource type="Script" uid="uid://bohk52aiub2fo" path="res://editor/render_camera.gd" id="1_2c2xe"]
 [ext_resource type="PackedScene" uid="uid://cqlt4v4sfg6fa" path="res://editor/orbit_camera.tscn" id="1_cv0yx"]
-[ext_resource type="Script" path="res://simulation/fluids.gd" id="1_iq7u7"]
-[ext_resource type="Script" path="res://editor/render_scene.gd" id="1_pnqg0"]
-[ext_resource type="Script" path="res://simulation/smoke_source.gd" id="2_mx7lm"]
+[ext_resource type="Script" uid="uid://cdfjn3yyg3ed5" path="res://simulation/fluids.gd" id="1_iq7u7"]
+[ext_resource type="Script" uid="uid://cv0eiedebtjh5" path="res://editor/render_scene.gd" id="1_pnqg0"]
+[ext_resource type="Script" uid="uid://cnfwdlnf1b8mn" path="res://simulation/smoke_source.gd" id="2_mx7lm"]
 [ext_resource type="Material" uid="uid://b2pi6oawxddbp" path="res://editor/wireframe.tres" id="5_7do5c"]
-[ext_resource type="Script" path="res://editor/wireframe_cube.gd" id="6_01nbv"]
+[ext_resource type="Script" uid="uid://bq286eih7bemv" path="res://editor/wireframe_cube.gd" id="6_01nbv"]
 [ext_resource type="PackedScene" uid="uid://drw2gpqj27evj" path="res://editor/translation_gizmo.tscn" id="8_l80bu"]
-[ext_resource type="Script" path="res://editor/render_camera_copy.gd" id="9_yroue"]
+[ext_resource type="Script" uid="uid://c1pugta5wo8aj" path="res://editor/render_camera_copy.gd" id="9_yroue"]
 
-[sub_resource type="ImmediateMesh" id="ImmediateMesh_pbgbl"]
+[sub_resource type="ImmediateMesh" id="ImmediateMesh_rcj5p"]
 script = ExtResource("6_01nbv")
-size = Vector3(1, 1, 1)
+size = Vector3(0, 12.8, 0.5)
 
-[sub_resource type="ImmediateMesh" id="ImmediateMesh_r301x"]
+[sub_resource type="ImmediateMesh" id="ImmediateMesh_fyqss"]
 script = ExtResource("6_01nbv")
 size = Vector3(12.8, 12.8, 12.8)
 
@@ -38,7 +38,7 @@ script = ExtResource("1_2c2xe")
 
 [node name="Bounds" type="MeshInstance3D" parent="RenderCam"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -6.4, 0)
-mesh = SubResource("ImmediateMesh_pbgbl")
+mesh = SubResource("ImmediateMesh_rcj5p")
 skeleton = NodePath("../../SmokeSim")
 surface_material_override/0 = ExtResource("5_7do5c")
 
@@ -51,7 +51,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.4, 0, 6.4)
 script = ExtResource("2_mx7lm")
 
 [node name="Bounds" type="MeshInstance3D" parent="SmokeSim"]
-mesh = SubResource("ImmediateMesh_r301x")
+mesh = SubResource("ImmediateMesh_fyqss")
 surface_material_override/0 = ExtResource("5_7do5c")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
