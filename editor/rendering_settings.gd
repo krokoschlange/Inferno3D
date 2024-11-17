@@ -19,6 +19,7 @@ extends Control
 @onready var ambient_color_editor: CustomColorPickerButton = $VBoxContainer/GridContainer2/AmbientColorEditor
 @onready var normal_strength_editor: FloatEditor = $VBoxContainer/GridContainer4/NormalStrengthEditor
 @onready var normal_smoothness_editor: FloatEditor = $VBoxContainer/GridContainer4/NormalSmoothnessEditor
+@onready var normal_surface_toggle: CheckButton = $VBoxContainer/GridContainer4/NormalSurfaceToggle
 @onready var velocity_strength_editor: FloatEditor = $VBoxContainer/GridContainer4/VelocityStrengthEditor
 
 
@@ -125,6 +126,11 @@ func _ready() -> void:
 	normal_smoothness_editor.value_changed.connect(func (new_value: float) -> void: smoke_sim.normal_smoothness = new_value)
 	normal_smoothness_editor.action_complete.connect(func (new_value: float, old_value: float) -> void:
 		EditHistory.submit_object_actions([smoke_sim], "normal_smoothness", [old_value], [new_value], update_ui))
+	
+	normal_surface_toggle.toggled.connect(func (toggled: bool) -> void:
+		smoke_sim.normal_surface = toggled
+		EditHistory.submit_object_actions([smoke_sim], "normal_surface", [not toggled], [toggled], update_ui))
+	
 	velocity_strength_editor.value_changed.connect(func (new_value: float) -> void: smoke_sim.velocity_map_strength = new_value)
 	velocity_strength_editor.action_complete.connect(func (new_value: float, old_value: float) -> void:
 		EditHistory.submit_object_actions([smoke_sim], "velocity_map_strength", [old_value], [new_value], update_ui))
@@ -143,6 +149,7 @@ func update_ui() -> void:
 	ambient_color_editor.color = smoke_sim.ambient_light
 	normal_strength_editor.set_value_no_signal(smoke_sim.normal_strength)
 	normal_smoothness_editor.set_value_no_signal(smoke_sim.normal_smoothness)
+	normal_surface_toggle.set_pressed_no_signal(smoke_sim.normal_surface)
 	velocity_strength_editor.set_value_no_signal(smoke_sim.velocity_map_strength)
 	
 	$VBoxContainer/HBoxContainer/OffsetKF.connect_property(render_scene_vp, "render_offset", update_ui, "Rendering: Camera Offset")
