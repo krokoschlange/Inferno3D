@@ -62,6 +62,7 @@ func save(filename: String, use_last_used_path: bool = false) -> void:
 		file.set_value(section, "fuel_rate", source.fuel_rate)
 		file.set_value(section, "explode", source.explode)
 		file.set_value(section, "velocity", source.velocity)
+		file.set_value(section, "force_velocity", source.force_velocity)
 		source_idx += 1
 	
 	file.set_value("AnimationGlobal", "warmup", AnimationHandler.warmup)
@@ -157,6 +158,7 @@ func read(filename: String) -> void:
 		source.fuel_rate = file.get_value(section, "fuel_rate", 100)
 		source.explode = file.get_value(section, "explode", 0)
 		source.velocity = file.get_value(section, "velocity", Vector3(0, 0, 0))
+		source.force_velocity = file.get_value(section, "force_velocity", 0.0)
 		
 		smoke_sim.add_child(source, true)
 		
